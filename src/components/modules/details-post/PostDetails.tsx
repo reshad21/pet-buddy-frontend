@@ -1,8 +1,10 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
-const Card = ({}) => {
+const PostDetails = ({}) => {
   const postId = "123"; // Replace with actual post ID
 
   const imageUrl =
@@ -12,16 +14,26 @@ const Card = ({}) => {
   const authorName = "John Doe"; // Replace with actual author name
   const authorEmail = "johndoe@example.com"; // Replace with actual author email
 
+  const [comment, setComment] = useState("");
+
+  const handleCommentSubmit = () => {
+    if (comment.trim()) {
+      // Add your comment submission logic here
+      console.log("Comment submitted:", comment);
+      setComment(""); // Clear the input field after submission
+    }
+  };
+
   return (
-    <div className="flex flex-col md:flex-row w-full bg-white shadow-md rounded-lg overflow-hidden">
-      {/* Left Side: Image */}
-      <div className="md:w-1/3 relative h-48 md:h-auto">
+    <div className="flex flex-col w-full bg-white shadow-md rounded-lg overflow-hidden">
+      {/* Image Section */}
+      <div className="relative h-48 md:h-96">
         <Image
           src={imageUrl}
           alt="Card Image"
           layout="fill"
           objectFit="cover"
-          className="rounded-t-lg md:rounded-l-lg"
+          className="rounded-t-lg"
           priority
         />
         {/* Premium Badge */}
@@ -30,8 +42,8 @@ const Card = ({}) => {
         </span>
       </div>
 
-      {/* Right Side: Content */}
-      <div className="md:w-2/3 p-4 flex flex-col justify-between">
+      {/* Content Section */}
+      <div className="p-4 flex flex-col">
         {/* Author Information */}
         <div className="flex items-center justify-between mb-4 rounded-lg">
           <div className="flex items-center">
@@ -86,9 +98,26 @@ const Card = ({}) => {
             See More
           </Link>
         </div>
+
+        {/* Comment Input Section */}
+        <div className="mt-6">
+          <textarea
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows={3}
+            placeholder="Write a comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button
+            className="mt-2 bg-blue-500 text-white py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300"
+            onClick={handleCommentSubmit}
+          >
+            Comment
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Card;
+export default PostDetails;
