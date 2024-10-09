@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 export default function layout({ children }: { children: ReactNode }) {
   return (
     <Container>
-      <div className="my-3 flex w-full gap-12">
+      <div className="my-3 flex w-full gap-8">
         <div className="w-2/5">
           <Sidebar />
         </div>

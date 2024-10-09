@@ -1,7 +1,9 @@
+import AllPosts from "@/components/modules/home/AllPosts";
+
 export default function Home() {
   return (
     <>
-      <h1>homepage</h1>
+      <AllPosts />
     </>
   );
 }
