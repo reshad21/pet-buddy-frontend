@@ -1,12 +1,9 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
-const PostDetails = ({}) => {
-  const postId = "123"; // Replace with actual post ID
-
+const PostDetails = () => {
   const imageUrl =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   const authorImageUrl =
@@ -15,6 +12,32 @@ const PostDetails = ({}) => {
   const authorEmail = "johndoe@example.com"; // Replace with actual author email
 
   const [comment, setComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
+
+  // Demo comments array
+  const demoComments = [
+    {
+      id: 1,
+      author: "Alice Smith",
+      text: "This is a great post! I really enjoyed reading it.",
+      authorImageUrl:
+        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+    },
+    {
+      id: 2,
+      author: "Bob Johnson",
+      text: "Thanks for sharing this information. Very helpful!",
+      authorImageUrl:
+        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+    },
+    {
+      id: 3,
+      author: "Charlie Brown",
+      text: "I found this article very insightful. Keep up the good work!",
+      authorImageUrl:
+        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+    },
+  ];
 
   const handleCommentSubmit = () => {
     if (comment.trim()) {
@@ -22,6 +45,17 @@ const PostDetails = ({}) => {
       console.log("Comment submitted:", comment);
       setComment(""); // Clear the input field after submission
     }
+  };
+
+  const [upvotes, setUpvotes] = useState(12); // Initial upvote count
+  const [downvotes, setDownvotes] = useState(3); // Initial downvote count
+
+  const handleUpvote = () => {
+    setUpvotes(upvotes + 1);
+  };
+
+  const handleDownvote = () => {
+    setDownvotes(downvotes + 1);
   };
 
   return (
@@ -78,42 +112,76 @@ const PostDetails = ({}) => {
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center space-x-3">
-            <button className="text-green-500 hover:text-green-700">
+            {/* Upvote Button */}
+            <button
+              className="text-green-500 hover:text-green-700"
+              onClick={handleUpvote}
+            >
               <FaArrowUp />
             </button>
-            <span className="text-gray-800">12</span>
-            <button className="text-red-500 hover:text-red-700">
+            <span className="text-gray-800">{upvotes}</span>
+
+            {/* Downvote Button */}
+            <button
+              className="text-red-500 hover:text-red-700"
+              onClick={handleDownvote}
+            >
               <FaArrowDown />
             </button>
-            <button className="ml-4 text-gray-600 hover:text-gray-800 flex items-center">
+            <span className="text-gray-800">{downvotes}</span>
+
+            {/* Comments Button */}
+            <button
+              className="ml-4 text-gray-600 hover:text-gray-800 flex items-center"
+              onClick={() => setShowComments(!showComments)}
+            >
               <FaComment className="mr-1" />
               <span>5</span>
             </button>
           </div>
-          <Link
-            href={`/details-post/${postId}`}
-            passHref
-            className="text-blue-600 hover:text-blue-800 font-semibold"
-          >
-            See More
-          </Link>
         </div>
 
         {/* Comment Input Section */}
-        <div className="mt-6">
-          <textarea
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows={3}
-            placeholder="Write a comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button
-            className="mt-2 bg-blue-500 text-white py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300"
-            onClick={handleCommentSubmit}
-          >
-            Comment
-          </button>
+        {showComments && (
+          <div className="mt-6">
+            <textarea
+              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows={3}
+              placeholder="Write a comment..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <button
+              className="mt-2 bg-blue-500 text-white py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300"
+              onClick={handleCommentSubmit}
+            >
+              Comment
+            </button>
+          </div>
+        )}
+
+        {/* Demo Comments Section */}
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold mb-2">Comments</h3>
+          <div className="space-y-4 h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500">
+            {demoComments.map((comment) => (
+              <div key={comment.id} className="flex items-start space-x-3">
+                <div className="w-10 h-10 relative">
+                  <Image
+                    src={comment.authorImageUrl}
+                    alt={`${comment.author}'s image`}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-full border border-gray-300"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-semibold">{comment.author}</h4>
+                  <p className="text-gray-600">{comment.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

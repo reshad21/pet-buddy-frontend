@@ -73,6 +73,7 @@ const Card = ({}) => {
             <button className="text-red-500 hover:text-red-700">
               <FaArrowDown />
             </button>
+            <span className="text-gray-800">2</span>
             <button className="ml-4 text-gray-600 hover:text-gray-800 flex items-center">
               <FaComment className="mr-1" />
               <span>5</span>

@@ -2,7 +2,9 @@ import Card from "@/components/UI/Post/Card";
 
 const AllPosts = () => {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
+      <Card />
+      <Card />
       <Card />
     </div>
   );
