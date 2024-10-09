@@ -1,8 +1,8 @@
 "use client";
 import FXForm from "@/components/form/FXForm";
 import FXInput from "@/components/form/FXInput";
+import { useUserRegistration } from "@/hooks/auth.hook";
 import registerValidationSchema from "@/schemas/register.schemas";
-import { registerUser } from "@/services/AuthService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 // import { useMutation } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import Link from "next/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
 export default function RegisterPage() {
-  // const { mutate: handleUserRegistration, isPending } = useUserRegistration();
+  const { mutate: handleUserRegistration, isPending } = useUserRegistration();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
@@ -20,14 +20,14 @@ export default function RegisterPage() {
     };
 
     console.log("Inside form user data: ", userData);
-    registerUser(userData);
+    // registerUser(userData);
 
-    // handleUserRegistration(userData);
+    handleUserRegistration(userData);
   };
 
-  // if (isPending) {
-  //   //  handle loading state
-  // }
+  if (isPending) {
+    //  handle loading state
+  }
 
   return (
     <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center">

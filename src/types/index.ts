@@ -34,14 +34,14 @@ export interface ICategory {
 }
 
 export interface IUser {
-    _id: string;
+    _id?: string;
     name: string;
     role: string;
     email: string;
     status: string;
     mobileNumber?: string;
     profilePhoto: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
+    createdAt?: string;
+    updatedAt?: string;
+    __v?: number;
 }
