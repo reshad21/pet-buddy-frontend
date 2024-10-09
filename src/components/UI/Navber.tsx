@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "@nextui-org/link";
 import {
   NavbarBrand,
@@ -11,12 +13,14 @@ import {
 import { link as linkStyles } from "@nextui-org/theme";
 import clsx from "clsx";
 import NextLink from "next/link";
-
 // import { Logo } from "@/src/components/icons";
 import { siteConfig } from "@/config/site";
+import { useUser } from "@/context/user.provider";
 import NavbarDropdown from "./NavbarDropdown";
 
 export const Navbar = () => {
+  const { user } = useUser();
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -49,9 +53,15 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2"></NavbarItem>
-        <NavbarItem className="hidden sm:flex gap-2">
-          <NavbarDropdown />
-        </NavbarItem>
+        {user?.email ? (
+          <NavbarItem className="hidden sm:flex gap-2">
+            <NavbarDropdown />
+          </NavbarItem>
+        ) : (
+          <NavbarItem className="hidden sm:flex gap-2">
+            <Link href="/login">Login</Link>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
