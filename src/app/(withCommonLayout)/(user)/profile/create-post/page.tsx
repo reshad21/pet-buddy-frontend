@@ -1,7 +1,5 @@
-export default function page() {
-  return (
-    <div>
-      <h1> create post page </h1>
-    </div>
-  );
-}
+const CreatePostpage = () => {
+  return <div>create post with quil.js</div>;
+};
+
+export default CreatePostpage;
