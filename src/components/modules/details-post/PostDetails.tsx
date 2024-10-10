@@ -3,7 +3,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
-const PostDetails = () => {
+const PostDetails = ({ postId }: { postId: string }) => {
+  console.log(postId);
+  // const { id } = router.query;
+  // Log the postId to verify
   const imageUrl =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   const authorImageUrl =

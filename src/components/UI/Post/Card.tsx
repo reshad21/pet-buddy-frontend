@@ -38,6 +38,11 @@ const Card = ({ post }: { post: IPost }) => {
             Premium
           </span>
         )}
+
+        {/* Category Badge */}
+        <span className="absolute bottom-2 left-2 bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+          {category}
+        </span>
       </div>
 
       {/* Right Side: Content */}
@@ -88,7 +93,6 @@ const Card = ({ post }: { post: IPost }) => {
           </div>
           <Link
             href={`/details-post/${_id}`}
-            passHref
             className="text-blue-600 hover:text-blue-800 font-semibold"
           >
             See More
