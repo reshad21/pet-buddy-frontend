@@ -1,11 +1,15 @@
 import Card from "@/components/UI/Post/Card";
+import { getAllPost } from "@/services/Post";
+import { IPost } from "@/types";
 
-const AllPosts = () => {
+const AllPosts = async () => {
+  const { data: posts } = await getAllPost();
+  console.log(posts);
   return (
     <div className="flex flex-col gap-3">
-      <Card />
-      <Card />
-      <Card />
+      {posts.map((post: IPost) => (
+        <Card key={post._id} post={post} />
+      ))}
     </div>
   );
 };
