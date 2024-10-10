@@ -92,7 +92,7 @@ const Card = ({ post }: { post: IPost }) => {
             </button>
           </div>
           <Link
-            href={`/details-post/${_id}`}
+            href={`/post/${_id}`}
             className="text-blue-600 hover:text-blue-800 font-semibold"
           >
             See More

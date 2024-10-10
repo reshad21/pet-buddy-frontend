@@ -65,3 +65,15 @@ export const getAllPost = async () => {
 
     return res.json();
 };
+
+
+export const getSinglePost = async (postId: string): Promise<any> => {
+    try {
+        const res = await axiosInstance.get(`/post/${postId}`);
+        return res.data;
+    } catch (error) {
+        // Log the error for debugging
+        console.error('Error fetching single post:', error);
+        throw error; // Re-throw the error if you want to handle it upstream
+    }
+};

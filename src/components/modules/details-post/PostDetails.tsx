@@ -1,12 +1,28 @@
 "use client";
+import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
 const PostDetails = ({ postId }: { postId: string }) => {
   console.log(postId);
-  // const { id } = router.query;
-  // Log the postId to verify
+  const {
+    mutate: fetchPostDetails,
+    // isLoading,
+    isSuccess,
+    data, // Capture the fetched data
+  } = useGetSinglePostDetails();
+
+  useEffect(() => {
+    fetchPostDetails(postId);
+  }, [postId, fetchPostDetails]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("Post details====>:", data); // Log the fetched data
+    }
+  }, [isSuccess, data]); // Only run when isSuccess changes
+
   const imageUrl =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   const authorImageUrl =

@@ -4,7 +4,6 @@ import { IPost } from "@/types";
 
 const AllPosts = async () => {
   const { data: posts } = await getAllPost();
-  console.log(posts);
   return (
     <div className="flex flex-col gap-3">
       {posts.map((post: IPost) => (
