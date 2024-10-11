@@ -16,3 +16,18 @@ export const getCurrentUserDetailsInfo = async (userId: string) => {
 
     return res.json();
 };
+
+export const getSingleUserAllPosts = async (userId: string) => {
+    const fetchOption = {
+        next: {
+            tags: ["userposts"],
+        },
+    };
+
+    const res = await fetch(
+        `${envConfig.baseApi}/users/posts/${userId}`,
+        fetchOption
+    );
+
+    return res.json()
+}

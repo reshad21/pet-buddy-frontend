@@ -12,7 +12,7 @@ export default function ProfileIntro() {
     if (user && user._id) {
       getCurrentUserDetailsInfo(user._id)
         .then((details) => {
-          console.log("Fetched details:", details.data);
+          // console.log("Fetched details:", details.data);
           setUserDetails(details.data);
         })
         .catch((error) => console.error("Error fetching user details:", error));
@@ -20,7 +20,7 @@ export default function ProfileIntro() {
   }, [user]);
 
   return (
-    <div className="max-w-full mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-300">
+    <div className="max-w-full mx-auto p-6 bg-white shadow-md rounded-lg border border-gray-300">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">
         Welcome, {userDetails?.name || "Guest"}
       </h2>

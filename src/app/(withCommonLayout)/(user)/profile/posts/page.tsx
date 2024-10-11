@@ -1,10 +1,7 @@
-import Card from "@/components/UI/Post/Card";
-
 const PostPage = () => {
   return (
     <div className="flex flex-col gap-5">
-      <Card />
-      <Card />
+      <h1>depends on mood</h1>
     </div>
   );
 };
