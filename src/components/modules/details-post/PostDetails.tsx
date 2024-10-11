@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
 const PostDetails = ({ postId }: { postId: string }) => {
-  console.log(postId);
+  // console.log(postId);
   const {
     mutate: fetchPostDetails,
     // isLoading,
     isSuccess,
-    data, // Capture the fetched data
+    data: postInfo, // Capture the fetched data
   } = useGetSinglePostDetails();
 
   useEffect(() => {
@@ -19,16 +19,9 @@ const PostDetails = ({ postId }: { postId: string }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("Post details====>:", data); // Log the fetched data
+      console.log("Post details====>:", postInfo?.data); // Log the fetched data
     }
-  }, [isSuccess, data]); // Only run when isSuccess changes
-
-  const imageUrl =
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-  const authorImageUrl =
-    "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"; // Replace with actual author image URL
-  const authorName = "John Doe"; // Replace with actual author name
-  const authorEmail = "johndoe@example.com"; // Replace with actual author email
+  }, [isSuccess, postInfo]);
 
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
@@ -82,7 +75,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
       {/* Image Section */}
       <div className="relative h-48 md:h-96">
         <Image
-          src={imageUrl}
+          src={postInfo?.data.postImage}
           alt="Card Image"
           layout="fill"
           objectFit="cover"
@@ -102,7 +95,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
           <div className="flex items-center">
             <div className="w-12 h-12 relative">
               <Image
-                src={authorImageUrl}
+                src={postInfo?.data.author.img}
                 alt="Author Image"
                 layout="fill"
                 objectFit="cover"
@@ -111,9 +104,11 @@ const PostDetails = ({ postId }: { postId: string }) => {
             </div>
             <div className="ml-4">
               <h4 className="text-base font-medium text-gray-800">
-                {authorName}
+                {postInfo?.data.author.name}
               </h4>
-              <p className="text-xs text-gray-500">{authorEmail}</p>
+              <p className="text-xs text-gray-500">
+                {postInfo?.data.author.email}
+              </p>
             </div>
           </div>
           <button className="bg-blue-500 text-white text-sm py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300 ml-4">
@@ -122,11 +117,8 @@ const PostDetails = ({ postId }: { postId: string }) => {
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold mb-2">Card Title</h2>
-          <p className="text-gray-600 mb-4">
-            This is a brief description of the content. It should be short and
-            informative to give users a quick idea about what the card is about.
-          </p>
+          <h2 className="text-xl font-semibold mb-2">{postInfo?.data.title}</h2>
+          <p className="text-gray-600 mb-4">{postInfo?.data.content}</p>
         </div>
 
         <div className="flex items-center justify-between mt-2">
@@ -138,7 +130,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
             >
               <FaArrowUp />
             </button>
-            <span className="text-gray-800">{upvotes}</span>
+            <span className="text-gray-800">{postInfo?.data.upvotes}</span>
 
             {/* Downvote Button */}
             <button
@@ -147,7 +139,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
             >
               <FaArrowDown />
             </button>
-            <span className="text-gray-800">{downvotes}</span>
+            <span className="text-gray-800">{postInfo?.data.downvotes}</span>
 
             {/* Comments Button */}
             <button
@@ -155,7 +147,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
               onClick={() => setShowComments(!showComments)}
             >
               <FaComment className="mr-1" />
-              <span>5</span>
+              <span>{postInfo?.data.comments.length}</span>
             </button>
           </div>
         </div>

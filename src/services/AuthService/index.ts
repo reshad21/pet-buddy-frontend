@@ -65,3 +65,21 @@ export const getCurrentUser = async () => {
 
     return decodedToken;
 };
+
+// export const getCurrentUserDetailsInfo = async (postId: string): Promise<any> => {
+//     try {
+//         const token = cookies().get("accessToken")?.value; // Get the token
+
+//         const res = await axiosInstance.get(`/users/${postId}`, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`, // Include the token in the headers
+//             },
+//         });
+
+//         return res.data;
+//     } catch (error) {
+//         // Log the error for debugging purposes
+//         console.error('Error fetching single post:', error);
+//         throw error; // Re-throw the error if you want to handle it upstream
+//     }
+// };
