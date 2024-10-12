@@ -1,7 +1,6 @@
 import { IPost } from "@/types";
 import Image from "next/image";
-import Link from "next/link";
-import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
+import UpDownVoteComponent from "./UpDownVoteComponent";
 
 const Card = ({ post }: { post: IPost }) => {
   const {
@@ -12,9 +11,9 @@ const Card = ({ post }: { post: IPost }) => {
     content,
     category,
     isPremium,
-    upvotes,
-    downvotes,
-    comments,
+    // upvotes,
+    // downvotes,
+    // comments,
   } = post;
 
   return (
@@ -75,29 +74,7 @@ const Card = ({ post }: { post: IPost }) => {
           <h2 className="text-xl font-semibold mb-2">{title}</h2>
           <p className="text-gray-600 mb-4">{content}</p>
         </div>
-
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center space-x-3">
-            <button className="text-green-500 hover:text-green-700">
-              <FaArrowUp />
-            </button>
-            <span className="text-gray-800">{upvotes}</span>
-            <button className="text-red-500 hover:text-red-700">
-              <FaArrowDown />
-            </button>
-            <span className="text-gray-800">{downvotes}</span>
-            <button className="ml-4 text-gray-600 hover:text-gray-800 flex items-center">
-              <FaComment className="mr-1" />
-              <span>{comments.length}</span>
-            </button>
-          </div>
-          <Link
-            href={`/post/${_id}`}
-            className="text-blue-600 hover:text-blue-800 font-semibold"
-          >
-            See More
-          </Link>
-        </div>
+        <UpDownVoteComponent key={_id} post={post} />
       </div>
     </div>
   );
