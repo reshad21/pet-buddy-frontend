@@ -2,6 +2,7 @@
 import { useUser } from "@/context/user.provider";
 import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import { createComment } from "@/services/Comment";
+import { ICommentData } from "@/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
@@ -22,37 +23,37 @@ const PostDetails = ({ postId }: { postId: string }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("Post details====>:", postInfo?.data); // Log the fetched data
+      console.log("Post details====>:", postInfo?.data.comments); // Log the fetched data
     }
   }, [isSuccess, postInfo]);
 
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
 
-  // Demo comments array
-  const demoComments = [
-    {
-      id: 1,
-      author: "Alice Smith",
-      text: "This is a great post! I really enjoyed reading it.",
-      authorImageUrl:
-        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-    },
-    {
-      id: 2,
-      author: "Bob Johnson",
-      text: "Thanks for sharing this information. Very helpful!",
-      authorImageUrl:
-        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-    },
-    {
-      id: 3,
-      author: "Charlie Brown",
-      text: "I found this article very insightful. Keep up the good work!",
-      authorImageUrl:
-        "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-    },
-  ];
+  // // Demo comments array
+  // const demoComments = [
+  //   {
+  //     id: 1,
+  //     author: "Alice Smith",
+  //     text: "This is a great post! I really enjoyed reading it.",
+  //     authorImageUrl:
+  //       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+  //   },
+  //   {
+  //     id: 2,
+  //     author: "Bob Johnson",
+  //     text: "Thanks for sharing this information. Very helpful!",
+  //     authorImageUrl:
+  //       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+  //   },
+  //   {
+  //     id: 3,
+  //     author: "Charlie Brown",
+  //     text: "I found this article very insightful. Keep up the good work!",
+  //     authorImageUrl:
+  //       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+  //   },
+  // ];
 
   const handleCommentSubmit = () => {
     console.log("handleCommentSubmit called"); // Debug log
@@ -184,11 +185,13 @@ const PostDetails = ({ postId }: { postId: string }) => {
         <div className="mt-4">
           <h3 className="text-lg font-semibold mb-2">Comments</h3>
           <div className="space-y-4 h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500">
-            {demoComments.map((comment) => (
-              <div key={comment.id} className="flex items-start space-x-3">
+            {postInfo?.data.comments.map((comment: ICommentData) => (
+              <div key={comment._id} className="flex items-start space-x-3">
                 <div className="w-10 h-10 relative">
                   <Image
-                    src={comment.authorImageUrl}
+                    src={
+                      "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                    }
                     alt={`${comment.author}'s image`}
                     layout="fill"
                     objectFit="cover"
@@ -196,8 +199,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold">{comment.author}</h4>
-                  <p className="text-gray-600">{comment.text}</p>
+                  <p className="text-gray-600">{comment.content}</p>
                 </div>
               </div>
             ))}

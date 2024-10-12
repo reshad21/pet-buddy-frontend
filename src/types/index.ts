@@ -64,6 +64,7 @@ export interface IUser {
 
 
 export interface ICommentData {
+    _id?: string;
     post: string | undefined;
     author: string | undefined;
     content: string;
