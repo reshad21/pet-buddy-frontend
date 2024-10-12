@@ -1,10 +1,13 @@
 "use client";
+import { useUser } from "@/context/user.provider";
 import { useGetSinglePostDetails } from "@/hooks/post.hook";
+import { createComment } from "@/services/Comment";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
 const PostDetails = ({ postId }: { postId: string }) => {
+  const { user } = useUser();
   // console.log(postId);
   const {
     mutate: fetchPostDetails,
@@ -52,9 +55,15 @@ const PostDetails = ({ postId }: { postId: string }) => {
   ];
 
   const handleCommentSubmit = () => {
+    console.log("handleCommentSubmit called"); // Debug log
     if (comment.trim()) {
-      // Add your comment submission logic here
-      console.log("Comment submitted:", comment);
+      const commentData = {
+        post: postId,
+        author: user?._id || "testUserId", // Temporary test user ID
+        content: comment,
+      };
+      console.log("bundle data that send to db==>", commentData);
+      createComment(commentData).catch((error) => console.error(error)); // Catch any errors
       setComment(""); // Clear the input field after submission
     }
   };

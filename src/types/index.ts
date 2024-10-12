@@ -60,3 +60,11 @@ export interface IUser {
     updatedAt?: string;
     __v?: number;
 }
+
+
+
+export interface ICommentData {
+    post: string | undefined;
+    author: string | undefined;
+    content: string;
+}

@@ -70,6 +70,7 @@ export const getAllPost = async () => {
 export const getSinglePost = async (postId: string): Promise<any> => {
     try {
         const res = await axiosInstance.get(`/post/${postId}`);
+        revalidateTag("post");
         return res.data;
     } catch (error) {
         // Log the error for debugging
