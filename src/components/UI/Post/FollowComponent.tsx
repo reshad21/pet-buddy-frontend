@@ -1,24 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { hitFollow } from "@/services/Follow";
 import { useState } from "react";
+import { toast } from "sonner"; // Import the toast function from sonner
 
-const FollowComponent = ({ author }: { author: { _id: string } }) => {
-  // const { user } = useUser();
-  console.log("Get author id from card-->", author._id);
-
+const FollowComponent = ({
+  author,
+}: {
+  author: { _id: string; name: string };
+}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFollow = async () => {
     try {
       setIsLoading(true);
-      // Only pass the followee ID to hitFollow
+      // Call the follow service with the author's ID
       await hitFollow(author._id);
       console.log("Successfully followed the user:", author._id);
-      // Optionally show a success message
-      alert(`Successfully followed ${author._id}`);
-    } catch (error) {
+
+      // Show success toast notification
+      toast.success(`Successfully followed ${author.name}!`);
+    } catch (error: any) {
       console.error("Failed to follow user:", error);
-      // Optionally show an error message to the user
+
+      // Handle different error messages
+      if (error.message === "Already following this user") {
+        toast.info("Already following this user."); // Show info message for already following
+      } else {
+        toast.error(error.message || "Because already follow"); // Show general error message
+      }
     } finally {
       setIsLoading(false);
     }
