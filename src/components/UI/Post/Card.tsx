@@ -1,5 +1,6 @@
 import { IPost } from "@/types";
 import Image from "next/image";
+import FollowComponent from "./FollowComponent";
 import UpDownVoteComponent from "./UpDownVoteComponent";
 
 const Card = ({ post }: { post: IPost }) => {
@@ -65,9 +66,7 @@ const Card = ({ post }: { post: IPost }) => {
               <p className="text-xs text-gray-500">{author.email}</p>
             </div>
           </div>
-          <button className="bg-blue-500 text-white text-sm py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300 ml-4">
-            Follow
-          </button>
+          <FollowComponent author={author} />
         </div>
 
         <div>

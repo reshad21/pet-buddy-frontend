@@ -33,7 +33,7 @@ export default function ProfileIntro() {
       <div className="flex justify-between mt-4">
         <div>
           <p className="text-gray-700">
-            <strong>Followers:</strong> {userDetails?.followers || 0}
+            <strong>Followers:</strong> {userDetails?.followers.length || 0}
           </p>
         </div>
         <div>
@@ -43,7 +43,7 @@ export default function ProfileIntro() {
         </div>
         <div>
           <p className="text-gray-700">
-            <strong>Following:</strong> {userDetails?.following || 0}
+            <strong>Following:</strong> {userDetails?.following.length || 0}
           </p>
         </div>
       </div>
