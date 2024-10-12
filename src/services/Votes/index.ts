@@ -9,7 +9,7 @@ export const createUpvote = async (postId: string): Promise<any> => {
     try {
         const { data } = await axiosInstance.post(`/vote/upvote/${postId}`);
 
-        revalidateTag("vote");
+        revalidateTag("upvote");
 
         return data;
     } catch (error) {
@@ -23,7 +23,7 @@ export const createUpvote = async (postId: string): Promise<any> => {
 export const getUpvote = async () => {
     const fetchOption = {
         next: {
-            tags: ["vote"],
+            tags: ["upvote"],
         },
     };
 
@@ -41,7 +41,7 @@ export const createDownvote = async (postId: string): Promise<any> => {
     try {
         const { data } = await axiosInstance.post(`/vote/downvote/${postId}`);
 
-        revalidateTag("vote");
+        revalidateTag("downvote");
 
         return data;
     } catch (error) {
@@ -55,7 +55,7 @@ export const createDownvote = async (postId: string): Promise<any> => {
 export const getDownvote = async () => {
     const fetchOption = {
         next: {
-            tags: ["vote"],
+            tags: ["downvote"],
         },
     };
 
