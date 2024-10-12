@@ -4,81 +4,64 @@ import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import { createComment } from "@/services/Comment";
 import { ICommentData } from "@/types";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
 const PostDetails = ({ postId }: { postId: string }) => {
   const { user } = useUser();
-  // console.log(postId);
   const {
     mutate: fetchPostDetails,
-    // isLoading,
     isSuccess,
-    data: postInfo, // Capture the fetched data
+    data: postInfo,
+    isLoading, // Added loading state
   } = useGetSinglePostDetails();
 
   useEffect(() => {
     fetchPostDetails(postId);
   }, [postId, fetchPostDetails]);
 
+  const [comment, setComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState<ICommentData[]>([]);
+
   useEffect(() => {
-    if (isSuccess) {
-      console.log("Post details====>:", postInfo?.data.comments); // Log the fetched data
+    if (isSuccess && postInfo?.data.comments) {
+      setComments(postInfo.data.comments);
     }
   }, [isSuccess, postInfo]);
 
-  const [comment, setComment] = useState("");
-  const [showComments, setShowComments] = useState(false);
-
-  // // Demo comments array
-  // const demoComments = [
-  //   {
-  //     id: 1,
-  //     author: "Alice Smith",
-  //     text: "This is a great post! I really enjoyed reading it.",
-  //     authorImageUrl:
-  //       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-  //   },
-  //   {
-  //     id: 2,
-  //     author: "Bob Johnson",
-  //     text: "Thanks for sharing this information. Very helpful!",
-  //     authorImageUrl:
-  //       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-  //   },
-  //   {
-  //     id: 3,
-  //     author: "Charlie Brown",
-  //     text: "I found this article very insightful. Keep up the good work!",
-  //     authorImageUrl:
-  //       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-  //   },
-  // ];
-
-  const handleCommentSubmit = () => {
-    console.log("handleCommentSubmit called"); // Debug log
+  const handleCommentSubmit = async () => {
     if (comment.trim()) {
       const commentData = {
         post: postId,
-        author: user?._id || "testUserId", // Temporary test user ID
+        author: user?._id || "testUserId",
         content: comment,
       };
-      console.log("bundle data that send to db==>", commentData);
-      createComment(commentData); // Catch any errors
-      setComment(""); // Clear the input field after submission
+
+      try {
+        const createdComment = await createComment(commentData);
+        setComments((prevComments) => [...prevComments, createdComment]);
+        setComment("");
+      } catch (error) {
+        console.error("Error creating comment:", error);
+      }
     }
   };
 
-  const [upvotes, setUpvotes] = useState(12); // Initial upvote count
-  const [downvotes, setDownvotes] = useState(3); // Initial downvote count
+  const [upvotes, setUpvotes] = useState(postInfo?.data.upvotes || 0);
+  const [downvotes, setDownvotes] = useState(postInfo?.data.downvotes || 0);
 
-  const handleUpvote = () => {
-    setUpvotes(upvotes + 1);
-  };
+  const handleUpvote = useCallback(() => {
+    setUpvotes((prev) => prev + 1);
+  }, []);
 
-  const handleDownvote = () => {
-    setDownvotes(downvotes + 1);
-  };
+  const handleDownvote = useCallback(() => {
+    setDownvotes((prev) => prev + 1);
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Loading state
+  }
 
   return (
     <div className="flex flex-col w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -92,7 +75,6 @@ const PostDetails = ({ postId }: { postId: string }) => {
           className="rounded-t-lg"
           priority
         />
-        {/* Premium Badge */}
         <span className="absolute top-2 right-2 bg-yellow-400 text-white text-xs font-semibold px-2 py-1 rounded-full">
           Premium
         </span>
@@ -133,31 +115,28 @@ const PostDetails = ({ postId }: { postId: string }) => {
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center space-x-3">
-            {/* Upvote Button */}
             <button
               className="text-green-500 hover:text-green-700"
               onClick={handleUpvote}
             >
               <FaArrowUp />
             </button>
-            <span className="text-gray-800">{postInfo?.data.upvotes}</span>
+            <span className="text-gray-800">{upvotes}</span>
 
-            {/* Downvote Button */}
             <button
               className="text-red-500 hover:text-red-700"
               onClick={handleDownvote}
             >
               <FaArrowDown />
             </button>
-            <span className="text-gray-800">{postInfo?.data.downvotes}</span>
+            <span className="text-gray-800">{downvotes}</span>
 
-            {/* Comments Button */}
             <button
               className="ml-4 text-gray-600 hover:text-gray-800 flex items-center"
               onClick={() => setShowComments(!showComments)}
             >
               <FaComment className="mr-1" />
-              <span>{postInfo?.data.comments.length}</span>
+              <span>{comments.length}</span>
             </button>
           </div>
         </div>
@@ -181,18 +160,18 @@ const PostDetails = ({ postId }: { postId: string }) => {
           </div>
         )}
 
-        {/* Demo Comments Section */}
+        {/* Comments Section */}
         <div className="mt-4">
           <h3 className="text-lg font-semibold mb-2">Comments</h3>
           <div className="space-y-4 h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500">
-            {postInfo?.data.comments.map((comment: ICommentData) => (
+            {comments.map((comment: ICommentData) => (
               <div key={comment._id} className="flex items-start space-x-3">
                 <div className="w-10 h-10 relative">
                   <Image
                     src={
                       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
                     }
-                    alt={`${comment.author}'s image`}
+                    alt="author image"
                     layout="fill"
                     objectFit="cover"
                     className="rounded-full border border-gray-300"
