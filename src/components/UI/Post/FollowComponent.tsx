@@ -19,7 +19,6 @@ const FollowComponent = ({ author }: { author: { _id: string } }) => {
     } catch (error) {
       console.error("Failed to follow user:", error);
       // Optionally show an error message to the user
-      alert(`Failed to follow user: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
