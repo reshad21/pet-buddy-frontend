@@ -63,7 +63,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
         content: comment,
       };
       console.log("bundle data that send to db==>", commentData);
-      createComment(commentData).catch((error) => console.error(error)); // Catch any errors
+      createComment(commentData); // Catch any errors
       setComment(""); // Clear the input field after submission
     }
   };
