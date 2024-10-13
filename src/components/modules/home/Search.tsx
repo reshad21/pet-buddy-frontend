@@ -1,15 +1,26 @@
 "use client";
-import { useState } from "react";
+import { useGetSearchPost } from "@/hooks/search.hook";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const {
+    mutate: searchpost,
+    data: searchData,
+    isSuccess,
+  } = useGetSearchPost();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add your search logic here
-    console.log("Searching for:", searchTerm);
+    searchpost(searchTerm);
   };
+
+  useEffect(() => {
+    if (isSuccess && searchData) {
+      console.log("Search data ---->", searchData.data);
+    }
+  }, [searchData, isSuccess]);
 
   return (
     <form onSubmit={handleSearch} className="flex items-center w-full mb-4">

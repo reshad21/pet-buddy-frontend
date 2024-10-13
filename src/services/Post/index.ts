@@ -80,3 +80,20 @@ export const getSinglePost = async (postId: string): Promise<any> => {
         throw error; // Re-throw the error if you want to handle it upstream
     }
 };
+
+
+export const searchPosts = async (searchData: string) => {
+    let fetchOptions = {};
+
+    fetchOptions = {
+        cache: "no-store",
+    };
+
+    const res = await fetch(`${envConfig.baseApi}/post?searchTerm=${searchData}`, fetchOptions);
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+};
