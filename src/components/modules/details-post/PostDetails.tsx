@@ -1,11 +1,12 @@
 "use client";
+import PostContent from "@/components/UI/PostContent";
 import { useUser } from "@/context/user.provider";
 import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import { createComment } from "@/services/Comment";
 import { ICommentData } from "@/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa"; // Import the PostContent component
 
 const PostDetails = ({ postId }: { postId: string }) => {
   const { user } = useUser();
@@ -111,7 +112,9 @@ const PostDetails = ({ postId }: { postId: string }) => {
 
         <div>
           <h2 className="text-xl font-semibold mb-2">{postInfo?.data.title}</h2>
-          <p className="text-gray-600 mb-4">{postInfo?.data.content}</p>
+          {/* Use PostContent component here */}
+          <PostContent content={postInfo?.data.content} />{" "}
+          {/* Replace with PostContent */}
         </div>
 
         <div className="flex items-center justify-between mt-2">
@@ -122,7 +125,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
             >
               <FaArrowUp />
             </button>
-            <span className="text-gray-800">{postInfo?.data.upvotes}</span>
+            <span className="text-gray-800">{upvotes}</span>
 
             <button
               className="text-red-500 hover:text-red-700"
@@ -130,7 +133,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
             >
               <FaArrowDown />
             </button>
-            <span className="text-gray-800">{postInfo?.data.downvotes}</span>
+            <span className="text-gray-800">{downvotes}</span>
 
             <button
               className="ml-4 text-gray-600 hover:text-gray-800 flex items-center"
