@@ -72,6 +72,7 @@ export interface ICommentData {
 
 
 export type TCreatePostData = {
+    _id: string;
     author: string | undefined;
     title: string;
     postImage: string;
