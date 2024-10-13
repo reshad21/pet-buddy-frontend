@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useUser } from "@/context/user.provider";
 import { useUpdateProfileDetails } from "@/hooks/updateProfile.hook";
+import { logout } from "@/services/AuthService";
+import { useRouter } from "next/navigation"; // Import the useRouter hook
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,6 +17,8 @@ export type TUserProfile = {
 
 const SettingsPage = () => {
   const { user } = useUser();
+  const router = useRouter();
+  // Initialize the router
 
   // React Hook Form setup
   const {
@@ -34,29 +39,30 @@ const SettingsPage = () => {
   }, [user, reset]);
 
   const { mutate: updateprofile, error, isSuccess } = useUpdateProfileDetails();
+
   const onSubmit: SubmitHandler<TUserProfile> = (data) => {
-    // Modify the data format for the backend
     const profileUpdateData = {
       name: data.name,
       img: data.profilePhoto, // Map profilePhoto to img
       mobileNumber: data.mobileNumber,
     };
-    // Make sure user._id exists before making the API call
+
     if (user?._id) {
-      // updateProfile(profileUpdateData, user._id); // Pass the correct order of arguments
-      updateprofile({ profileUpdateData, postId: user._id }); // Pass the correct order of arguments
+      updateprofile({ profileUpdateData, postId: user._id });
     }
   };
 
   useEffect(() => {
     if (error) {
-      toast.info("Updating post...");
+      toast.error("Error updating profile. Please try again.");
     }
 
     if (isSuccess) {
-      toast.success("Post update successfully!");
+      toast.success("Profile updated successfully!");
+      logout(); // Call the logOut function
+      router.push("/login"); // Navigate to the login page
     }
-  }, [error, isSuccess]);
+  }, [error, isSuccess, logout, router]);
 
   return (
     <div className="max-w-full mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-300">
