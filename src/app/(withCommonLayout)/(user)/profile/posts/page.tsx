@@ -1,11 +1,12 @@
 "use client";
 import Modal from "@/components/UI/Modal"; // Adjust the path according to your project structure
 import { useUser } from "@/context/user.provider";
-import { deletePost } from "@/services/DeletePost";
+import { useDeletePost } from "@/hooks/deletepost.hook";
 import { getSingleUserAllPosts } from "@/services/user";
 import { TCreatePostData } from "@/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const PostPage = () => {
   const { user } = useUser();
@@ -30,10 +31,24 @@ const PostPage = () => {
     setSelectedPost(post);
     setIsModalOpen(true);
   };
+
+  const { mutate: deletepost, error, isSuccess } = useDeletePost();
+
   const handleDeletClick = (postId: string) => {
     console.log("show deleted id===>", postId);
-    deletePost(postId);
+    // deletePost(postId);
+    deletepost(postId);
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.info("Deleting post...");
+    }
+
+    if (isSuccess) {
+      toast.success("Post deleted successfully!");
+    }
+  }, [error, isSuccess]);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
