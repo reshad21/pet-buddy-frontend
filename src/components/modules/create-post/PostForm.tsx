@@ -30,13 +30,10 @@ const PostForm: React.FC = () => {
     setValue,
   } = useForm<PostFormValues>({
     defaultValues: {
-      title: "How to feed friend with benefit pussy cat3?",
-      postImage:
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-      content:
-        "This post provides tips on take care your cat to ensure longevity and safety.",
-      category: "Story",
-      isPremium: true,
+      title: "",
+      postImage: "",
+      content: "",
+      category: "",
     },
   });
 
