@@ -4,7 +4,7 @@ import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import { createComment } from "@/services/Comment";
 import { ICommentData } from "@/types";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
 const PostDetails = ({ postId }: { postId: string }) => {
@@ -12,8 +12,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
   const {
     mutate: fetchPostDetails,
     isSuccess,
-    data: postInfo,
-    isLoading, // Added loading state
+    data: postInfo, // Capture the fetched data
   } = useGetSinglePostDetails();
 
   useEffect(() => {
@@ -22,46 +21,48 @@ const PostDetails = ({ postId }: { postId: string }) => {
 
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState<ICommentData[]>([]);
+  const [comments, setComments] = useState<ICommentData[]>(
+    postInfo?.data.comments || []
+  );
 
   useEffect(() => {
     if (isSuccess && postInfo?.data.comments) {
+      // Update comments state with the fetched comments
       setComments(postInfo.data.comments);
     }
   }, [isSuccess, postInfo]);
 
   const handleCommentSubmit = async () => {
+    console.log("handleCommentSubmit called");
     if (comment.trim()) {
       const commentData = {
         post: postId,
-        author: user?._id || "testUserId",
+        author: user?._id || "testUserId", // Temporary test user ID
         content: comment,
       };
+      console.log("bundle data that send to db==>", commentData);
 
       try {
-        const createdComment = await createComment(commentData);
-        setComments((prevComments) => [...prevComments, createdComment]);
-        setComment("");
+        const createdComment = await createComment(commentData); // Assuming createComment returns the created comment
+        setComments((prevComments) => [...prevComments, createdComment]); // Update comments state
+        setComment(""); // Clear the input field after submission
       } catch (error) {
         console.error("Error creating comment:", error);
+        // Handle error (optional: show error message)
       }
     }
   };
 
-  const [upvotes, setUpvotes] = useState(postInfo?.data.upvotes || 0);
-  const [downvotes, setDownvotes] = useState(postInfo?.data.downvotes || 0);
+  const [upvotes, setUpvotes] = useState(12); // Initial upvote count
+  const [downvotes, setDownvotes] = useState(3); // Initial downvote count
 
-  const handleUpvote = useCallback(() => {
-    setUpvotes((prev) => prev + 1);
-  }, []);
+  const handleUpvote = () => {
+    setUpvotes(upvotes + 1);
+  };
 
-  const handleDownvote = useCallback(() => {
-    setDownvotes((prev) => prev + 1);
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>; // Loading state
-  }
+  const handleDownvote = () => {
+    setDownvotes(downvotes + 1);
+  };
 
   return (
     <div className="flex flex-col w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -121,7 +122,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
             >
               <FaArrowUp />
             </button>
-            <span className="text-gray-800">{upvotes}</span>
+            <span className="text-gray-800">{postInfo?.data.upvotes}</span>
 
             <button
               className="text-red-500 hover:text-red-700"
@@ -129,7 +130,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
             >
               <FaArrowDown />
             </button>
-            <span className="text-gray-800">{downvotes}</span>
+            <span className="text-gray-800">{postInfo?.data.downvotes}</span>
 
             <button
               className="ml-4 text-gray-600 hover:text-gray-800 flex items-center"
@@ -170,7 +171,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
                   <Image
                     src={
                       "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
-                    }
+                    } // Default image if author image is not available
                     alt="author image"
                     layout="fill"
                     objectFit="cover"
