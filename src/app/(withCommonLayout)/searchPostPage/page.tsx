@@ -34,7 +34,7 @@ const SearchPostPage = () => {
       <h1 className="text-2xl font-bold mb-4">Search Results for: {search}</h1>
       {results.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-          {results.map((post: IPost) => (
+          {results?.map((post: IPost) => (
             <Card post={post} key={post._id} />
           ))}
         </div>

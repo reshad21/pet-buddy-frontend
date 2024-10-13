@@ -25,7 +25,7 @@ const ProfilePost = () => {
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">All Post</h2>
       {userAllPosts.length > 0 ? (
         <div className="space-y-4">
-          {userAllPosts.map((post: IPost) => (
+          {userAllPosts?.map((post: IPost) => (
             <Card post={post} key={post._id} />
           ))}
         </div>

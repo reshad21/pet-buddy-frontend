@@ -77,7 +77,7 @@ const PostPage = () => {
             </tr>
           </thead>
           <tbody>
-            {userAllPosts.map((post: TCreatePostData) => (
+            {userAllPosts?.map((post: TCreatePostData) => (
               <tr key={post._id} className="hover:bg-gray-100">
                 <td className="px-6 py-4 text-sm text-gray-700">
                   {post.category}

@@ -168,7 +168,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
         <div className="mt-4">
           <h3 className="text-lg font-semibold mb-2">Comments</h3>
           <div className="space-y-4 h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500">
-            {comments.map((comment: ICommentData) => (
+            {comments?.map((comment: ICommentData) => (
               <div key={comment._id} className="flex items-start space-x-3">
                 <div className="w-10 h-10 relative">
                   <Image

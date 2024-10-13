@@ -23,7 +23,7 @@ const PopularPosts = () => {
       ) : (
         <ul className="space-y-2">
           {isSuccess && data ? (
-            data?.data.slice(0, 5).map(
+            data?.data.slice(0, 5)?.map(
               (
                 post: IPost // Show only the first 5 posts
               ) => (
