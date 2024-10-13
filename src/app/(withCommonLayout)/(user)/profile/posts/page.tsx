@@ -108,7 +108,13 @@ const PostPage = () => {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDeletClick(post._id)}
+                      onClick={() => {
+                        if (post._id) {
+                          handleDeletClick(post._id);
+                        } else {
+                          console.error("Post ID is undefined.");
+                        }
+                      }}
                       className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 transition duration-300"
                     >
                       Delete
