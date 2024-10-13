@@ -1,4 +1,5 @@
 "use client";
+import { updatePost } from "@/services/UpdatePost";
 import { TCreatePostData } from "@/types";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -14,9 +15,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, post }) => {
     defaultValues: post || {}, // Set default values to the post data
   });
 
-  const onSubmit = (data: TCreatePostData) => {
+  const onSubmit = (modalData: TCreatePostData) => {
     // Handle the form submission for updating the post
-    console.log("Updated Post Data:", data);
+    console.log("Updated Post Data:", modalData);
+    if (modalData?._id) {
+      updatePost(modalData, modalData?._id);
+    }
+
     // Here you would typically call your update API
     onClose(); // Close the modal after submission
   };

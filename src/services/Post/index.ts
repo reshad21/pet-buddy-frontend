@@ -71,6 +71,7 @@ export const getSinglePost = async (postId: string): Promise<any> => {
     try {
         const res = await axiosInstance.get(`/post/${postId}`);
         revalidateTag("post");
+        revalidateTag("UPDATE_POST");
         revalidateTag("DELETE_POST");
         return res.data;
     } catch (error) {
