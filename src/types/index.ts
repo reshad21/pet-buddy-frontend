@@ -69,3 +69,14 @@ export interface ICommentData {
     author: string | undefined;
     content: string;
 }
+
+
+export type TCreatePostData = {
+    author: string | undefined;
+    title: string;
+    postImage: string;
+    content: string;
+    category: string;
+    isPremium: boolean;
+};
+

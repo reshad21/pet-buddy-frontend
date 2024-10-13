@@ -1,5 +1,11 @@
+import PostForm from "@/components/modules/create-post/PostForm";
+
 const CreatePostpage = () => {
-  return <div>create post with quil.js</div>;
+  return (
+    <div>
+      <PostForm />
+    </div>
+  );
 };
 
 export default CreatePostpage;
