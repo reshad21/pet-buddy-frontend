@@ -1,5 +1,6 @@
-"use client";
+"use client"; // Indicate this is a client component
 import { useGetSearchPost } from "@/hooks/search.hook";
+import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
@@ -10,17 +11,19 @@ const Search = () => {
     data: searchData,
     isSuccess,
   } = useGetSearchPost();
+  const router = useRouter(); // Initialize the router
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    searchpost(searchTerm);
+    searchpost(searchTerm); // Call the mutation to get the search results
   };
 
   useEffect(() => {
     if (isSuccess && searchData) {
-      console.log("Search data ---->", searchData.data);
+      // Redirect to the search results page with the search term
+      router.push(`/searchPostPage?search=${encodeURIComponent(searchTerm)}`);
     }
-  }, [searchData, isSuccess]);
+  }, [searchData, isSuccess, searchTerm, router]);
 
   return (
     <form onSubmit={handleSearch} className="flex items-center w-full mb-4">
