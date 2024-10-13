@@ -2,6 +2,7 @@
 
 import { useUser } from "@/context/user.provider";
 import { getCurrentUserDetailsInfo } from "@/services/user";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ProfileIntro() {
@@ -47,9 +48,11 @@ export default function ProfileIntro() {
           </p>
         </div>
       </div>
-      <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300">
-        Edit Profile
-      </button>
+      <Link href={"/profile/settings"}>
+        <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          Edit Profile
+        </button>
+      </Link>
     </div>
   );
 }

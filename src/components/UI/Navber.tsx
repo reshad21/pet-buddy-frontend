@@ -27,7 +27,7 @@ export const Navbar = () => {
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             {/* <Logo /> */}
-            <p className="font-bold text-inherit">ACME</p>
+            <p className="font-bold text-inherit">PETBUDDY</p>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -59,7 +59,12 @@ export const Navbar = () => {
           </NavbarItem>
         ) : (
           <NavbarItem className="hidden sm:flex gap-2">
-            <Link href="/login">Login</Link>
+            <Link
+              href="/login"
+              className="inline-block mt-4 bg-blue-600 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-700 transition duration-300"
+            >
+              Login
+            </Link>
           </NavbarItem>
         )}
       </NavbarContent>
