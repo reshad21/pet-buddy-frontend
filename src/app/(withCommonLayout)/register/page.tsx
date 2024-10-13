@@ -31,8 +31,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center">
-      <h3 className="my-2 text-xl font-bold">Register with FoundX</h3>
-      <p className="mb-4">Help Lost Items Find Their Way Home</p>
+      <h3 className="my-2 text-xl font-bold">Register with Petbuddy</h3>
       <div className="w-[35%]">
         <FXForm
           //! Only for development
