@@ -1,10 +1,15 @@
-"use client";
+"use client"; // Ensure this component is treated as a client component
+
 import { useUser } from "@/context/user.provider";
 import { useGetCreatePost } from "@/hooks/createPost.hook";
 import { TCreatePostData } from "@/types"; // Import the custom hook
+import dynamic from "next/dynamic"; // Import dynamic for lazy loading
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+// Dynamically import ReactQuill to prevent SSR issues
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 type PostFormValues = {
   title: string;
@@ -22,6 +27,7 @@ const PostForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<PostFormValues>({
     defaultValues: {
       title: "How to feed friend with benefit pussy cat3?",
@@ -116,10 +122,11 @@ const PostForm: React.FC = () => {
 
       <div>
         <label htmlFor="content">Content:</label>
-        <textarea
+        <ReactQuill
           id="content"
           {...register("content", { required: "Content is required" })}
-          className="border p-2 rounded w-full"
+          onChange={(value) => setValue("content", value)} // Update the value
+          className="border rounded w-full"
         />
         {errors.content && (
           <p className="text-red-500">{errors.content.message}</p>
