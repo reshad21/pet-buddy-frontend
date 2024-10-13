@@ -1,6 +1,7 @@
 "use client";
 import Modal from "@/components/UI/Modal"; // Adjust the path according to your project structure
 import { useUser } from "@/context/user.provider";
+import { deletePost } from "@/services/DeletePost";
 import { getSingleUserAllPosts } from "@/services/user";
 import { TCreatePostData } from "@/types";
 import Image from "next/image";
@@ -28,6 +29,10 @@ const PostPage = () => {
   const handleEditClick = (post: TCreatePostData) => {
     setSelectedPost(post);
     setIsModalOpen(true);
+  };
+  const handleDeletClick = (postId: string) => {
+    console.log("show deleted id===>", postId);
+    deletePost(postId);
   };
 
   const handleCloseModal = () => {
@@ -87,7 +92,10 @@ const PostPage = () => {
                     >
                       Edit
                     </button>
-                    <button className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 transition duration-300">
+                    <button
+                      onClick={() => handleDeletClick(post._id)}
+                      className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 transition duration-300"
+                    >
                       Delete
                     </button>
                   </div>
