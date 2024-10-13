@@ -98,12 +98,9 @@ const PostPage = () => {
                 </td>
                 <td className="px-6 py-4 space-x-2">
                   <div className="flex space-x-2">
-                    <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 transition duration-300">
-                      View
-                    </button>
                     <button
                       onClick={() => handleEditClick(post)} // Open modal with the post data
-                      className="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600 transition duration-300"
+                      className="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 transition duration-300"
                     >
                       Edit
                     </button>
@@ -115,7 +112,7 @@ const PostPage = () => {
                           console.error("Post ID is undefined.");
                         }
                       }}
-                      className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 transition duration-300"
+                      className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300"
                     >
                       Delete
                     </button>
