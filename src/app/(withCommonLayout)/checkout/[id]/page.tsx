@@ -1,6 +1,7 @@
 "use client";
 import { useUser } from "@/context/user.provider";
 import { useGetSinglePostDetails } from "@/hooks/post.hook";
+import { createOrder } from "@/services/Order";
 import { IPost } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,6 +57,7 @@ const CheckOutPage = ({ params }: { params: { id: string } }) => {
     const user = defaultUserInfo;
     const orderData = { user, article };
     console.log("orderdata-->", orderData);
+    createOrder(orderData);
   };
 
   return (
