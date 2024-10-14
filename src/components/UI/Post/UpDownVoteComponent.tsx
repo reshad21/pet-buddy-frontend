@@ -7,7 +7,6 @@ import {
   getUpvote,
 } from "@/services/Votes";
 import { IPost } from "@/types";
-import Link from "next/link";
 import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
 
 const UpDownVoteComponent = ({ post }: { post: IPost }) => {
@@ -49,12 +48,6 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
           <span>{post.comments.length}</span>
         </button>
       </div>
-      <Link
-        href={`/post/${post._id}`}
-        className="text-blue-600 hover:text-blue-800 font-semibold"
-      >
-        See More
-      </Link>
     </div>
   );
 };

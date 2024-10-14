@@ -22,7 +22,7 @@ const ProfilePost = () => {
 
   return (
     <div className="max-w-full mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-300">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">All Post</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">My Post</h2>
       {userAllPosts.length > 0 ? (
         <div className="space-y-4">
           {userAllPosts?.map((post: IPost) => (
