@@ -1,4 +1,5 @@
 "use client";
+
 import { useUser } from "@/context/user.provider";
 import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import { createOrder } from "@/services/Order";
@@ -10,9 +11,9 @@ import React, { useEffect, useState } from "react";
 const CheckOutPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const { user } = useUser();
-
   const { mutate: getpost, data } = useGetSinglePostDetails();
   const [article, setArticle] = useState<IPost | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState("creditCard");
 
   useEffect(() => {
     getpost(id);
@@ -22,12 +23,8 @@ const CheckOutPage = ({ params }: { params: { id: string } }) => {
     if (data) {
       setArticle(data?.data);
     }
-  }, [data, article]);
+  }, [data]);
 
-  // Initialize payment method state unconditionally
-  const [paymentMethod, setPaymentMethod] = useState("creditCard");
-
-  // If user is null, set default userInfo values
   const defaultUserInfo = {
     name: user?.name || "",
     email: user?.email || "",
@@ -35,7 +32,6 @@ const CheckOutPage = ({ params }: { params: { id: string } }) => {
     profilePhoto: user?.profilePhoto || "/default-profile.png",
   };
 
-  // Check if user is null
   if (!user) {
     return (
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
@@ -52,12 +48,19 @@ const CheckOutPage = ({ params }: { params: { id: string } }) => {
     );
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const user = defaultUserInfo;
-    const orderData = { user, article };
-    console.log("orderdata-->", orderData);
-    createOrder(orderData);
+    const orderData = { user: defaultUserInfo, article };
+
+    try {
+      const res = await createOrder(orderData);
+      if (res.data.payment_url) {
+        window.location.href = res.data.payment_url;
+      }
+    } catch (error) {
+      console.error("Error creating order:", error);
+      // Handle error appropriately (e.g., show error message)
+    }
   };
 
   return (
@@ -133,7 +136,7 @@ const CheckOutPage = ({ params }: { params: { id: string } }) => {
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300"
             >
-              Proced To Payment
+              Proceed To Payment
             </button>
           </form>
         </div>
