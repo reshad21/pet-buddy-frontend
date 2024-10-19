@@ -1,4 +1,4 @@
-
+"use server";
 import envConfig from "@/config/envConfig";
 import axios from "axios";
 import { cookies } from "next/headers";

@@ -81,3 +81,12 @@ export type TCreatePostData = {
     isPremium: boolean;
 };
 
+
+export interface ChangePasswordData {
+    email: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+

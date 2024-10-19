@@ -62,7 +62,13 @@ const LoginPage = () => {
           </Button>
         </FXForm>
         <div className="text-center">
-          Don&lsquo;t have account ? <Link href={"/register"}>Register</Link>
+          Don&lsquo;t have account? <Link href={"/register"}>Register</Link>
+        </div>
+
+        <div className="text-center">OR</div>
+
+        <div className="text-center">
+          <Link href={"/forget-password"}>Forget password</Link>
         </div>
       </div>
     </div>
