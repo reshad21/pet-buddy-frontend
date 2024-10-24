@@ -7,11 +7,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 // import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 // import { useEffect } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
 export default function RegisterPage() {
-  const { mutate: handleUserRegistration, isPending } = useUserRegistration();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirect = searchParams.get("redirect");
+
+  const {
+    mutate: handleUserRegistration,
+    isPending,
+    isSuccess,
+  } = useUserRegistration();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
@@ -19,15 +29,14 @@ export default function RegisterPage() {
       img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     };
 
-    console.log("Inside form user data: ", userData);
-    // registerUser(userData);
-
     handleUserRegistration(userData);
   };
 
-  if (isPending) {
-    //  handle loading state
-  }
+  useEffect(() => {
+    if (!isPending && isSuccess) {
+      router.push(redirect ? redirect : "/login");
+    }
+  }, [isPending, isSuccess, redirect, router]);
 
   return (
     <div className="flex h-[calc(100vh-100px)] flex-col items-center justify-center">

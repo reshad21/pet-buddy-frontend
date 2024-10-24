@@ -29,7 +29,7 @@ const LoginPage = () => {
     if (!isPending && isSuccess) {
       router.push(redirect ? redirect : "/");
     }
-  }, [isPending, isSuccess]);
+  }, [isPending, isSuccess, redirect, router]);
 
   return (
     <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center bg-gray-50 px-4">
