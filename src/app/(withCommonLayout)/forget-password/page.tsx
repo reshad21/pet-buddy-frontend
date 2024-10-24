@@ -1,14 +1,31 @@
 "use client";
-import { changePassword, TFormdata } from "@/services/Forgetpassword";
+import { useUserForgetPassword } from "@/hooks/auth.hook";
+import { TFormdata } from "@/services/Forgetpassword";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirect = searchParams.get("redirect");
   const { handleSubmit, register } = useForm<TFormdata>();
+  const {
+    mutate: handleForgetPassword,
+    isPending,
+    isSuccess,
+  } = useUserForgetPassword();
 
   const onSubmit: SubmitHandler<TFormdata> = (data) => {
     console.log("Old and New Password:", data);
-    changePassword(data);
+    handleForgetPassword(data);
   };
+
+  useEffect(() => {
+    if (!isPending && isSuccess) {
+      router.push(redirect ? redirect : "/login");
+    }
+  }, [isPending, isSuccess, redirect, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

@@ -18,30 +18,26 @@ const LoginPage = () => {
   const redirect = searchParams.get("redirect");
 
   const { setIsLoading: userLoading } = useUser();
-
   const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
     handleUserLogin(data);
     userLoading(true);
   };
 
   useEffect(() => {
     if (!isPending && isSuccess) {
-      if (redirect) {
-        router.push(redirect);
-      } else {
-        router.push("/");
-      }
+      router.push(redirect ? redirect : "/");
     }
   }, [isPending, isSuccess]);
 
   return (
-    <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center">
-      <h3 className="my-2 text-2xl font-bold">Login with PetBuddy</h3>
-      <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
-      <div className="w-[35%]">
+    <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center bg-gray-50 px-4">
+      <h3 className="my-2 text-3xl font-bold text-gray-800">
+        Login to PetBuddy
+      </h3>
+      <p className="mb-6 text-gray-600">Welcome back! Let’s get started.</p>
+      <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md">
         <FXForm
           onSubmit={onSubmit}
           resolver={zodResolver(loginValidationSchema)}
@@ -54,21 +50,40 @@ const LoginPage = () => {
           </div>
 
           <Button
-            className="my-3 w-full rounded-md bg-default-900 font-semibold text-default"
+            className="my-4 w-full rounded-md bg-blue-600 font-semibold text-white hover:bg-blue-700 transition-colors"
             size="lg"
             type="submit"
+            isLoading={isPending}
           >
             Login
           </Button>
         </FXForm>
-        <div className="text-center">
-          Don&lsquo;t have account? <Link href={"/register"}>Register</Link>
+
+        <div className="my-4 text-center text-gray-600">
+          <Link
+            href="/forget-password"
+            className="text-blue-500 hover:underline"
+          >
+            Forgot Password?
+          </Link>
         </div>
 
-        <div className="text-center">OR</div>
+        <div className="my-4 flex items-center justify-center">
+          <span className="w-full h-px bg-gray-300"></span>
+          <span className="mx-3 text-sm text-gray-500">OR</span>
+          <span className="w-full h-px bg-gray-300"></span>
+        </div>
 
         <div className="text-center">
-          <Link href={"/forget-password"}>Forget password</Link>
+          <p className="text-gray-600">
+            Don’t have an account?{" "}
+            <Link
+              href="/register"
+              className="text-blue-500 font-semibold hover:underline"
+            >
+              Register
+            </Link>
+          </p>
         </div>
       </div>
     </div>

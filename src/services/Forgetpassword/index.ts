@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
+
 import axiosInstance from "@/lib/AxiosInstance";
 
 export type TFormdata = {
     newPassword: string;
     oldPassword: string;
+    confirmPassword: string; // Added confirmPassword
+    email: string; // Added email
 }
 
 type TResponse = {
@@ -14,7 +17,7 @@ type TResponse = {
 
 export const changePassword = async (formdata: TFormdata): Promise<TResponse> => {
     try {
-        const { data } = await axiosInstance.post("/forget-password", { ...formdata });
+        const { data } = await axiosInstance.post("/auth/forget-password", { ...formdata });
         return data;
     } catch (error) {
         console.error("Error forget password:", error);
