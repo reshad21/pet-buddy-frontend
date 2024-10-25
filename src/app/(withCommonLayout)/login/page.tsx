@@ -66,6 +66,13 @@ const LoginPage = () => {
           >
             Forgot Password?
           </Link>
+          <span className="mx-2">/</span>
+          <Link
+            href="/change-password"
+            className="text-blue-500 hover:underline"
+          >
+            Change Password?
+          </Link>
         </div>
 
         <div className="my-4 flex items-center justify-center">

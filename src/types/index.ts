@@ -82,7 +82,7 @@ export type TCreatePostData = {
 };
 
 
-export interface ChangePasswordData {
+export interface TChangePasswordData {
     email: string;
     oldPassword: string;
     newPassword: string;

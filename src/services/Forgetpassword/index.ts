@@ -15,7 +15,7 @@ type TResponse = {
     message: string;
 };
 
-export const changePassword = async (formdata: TFormdata): Promise<TResponse> => {
+export const forgetPassword = async (formdata: TFormdata): Promise<TResponse> => {
     try {
         const { data } = await axiosInstance.post("/auth/forget-password", { ...formdata });
         return data;
