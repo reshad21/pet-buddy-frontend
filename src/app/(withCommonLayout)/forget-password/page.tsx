@@ -3,37 +3,23 @@ import { TFormdata } from "@/services/Forgetpassword";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
-  // const searchParams = useSearchParams();
-  // const router = useRouter();
-  // const redirect = searchParams.get("redirect");
   const { handleSubmit, register } = useForm<TFormdata>();
-  // const {
-  //   mutate: handleForgetPassword,
-  //   isPending,
-  //   isSuccess,
-  // } = useUserForgetPassword();
 
   const onSubmit: SubmitHandler<TFormdata> = (data) => {
     console.log("Old and New Password:", data);
   };
 
-  // useEffect(() => {
-  //   if (!isPending && isSuccess) {
-  //     router.push(redirect ? redirect : "/login");
-  //   }
-  // }, [isPending, isSuccess, redirect, router]);
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Change Password
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-200 to-blue-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-3xl font-semibold text-center text-blue-600 mb-8">
+          Forgot Password
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
+          <div className="mb-5">
             <label
               htmlFor="oldPassword"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
               Old Password
             </label>
@@ -41,15 +27,15 @@ const ForgotPassword = () => {
               type="password"
               id="oldPassword"
               {...register("oldPassword")}
-              className="mt-1 p-2 block w-full border rounded-md"
+              className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your old password"
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-6">
             <label
               htmlFor="newPassword"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
               New Password
             </label>
@@ -57,16 +43,16 @@ const ForgotPassword = () => {
               type="password"
               id="newPassword"
               {...register("newPassword")}
-              className="mt-1 p-2 block w-full border rounded-md"
+              className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your new password"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+            className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300"
           >
-            Update Password
+            Get New Password
           </button>
         </form>
       </div>

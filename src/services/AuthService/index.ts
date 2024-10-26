@@ -4,6 +4,7 @@
 import axiosInstance from "@/lib/AxiosInstance";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
+// import Cookies from "js-cookie";
 import { FieldValues } from "react-hook-form";
 
 export const registerUser = async (userData: FieldValues) => {
@@ -22,9 +23,10 @@ export const registerUser = async (userData: FieldValues) => {
 };
 
 export const loginUser = async (userData: FieldValues) => {
+    // console.log("get data from axios login--->", userData);
     try {
         const { data } = await axiosInstance.post("/auth/login", userData);
-
+        console.log("get data from axios login from db--->", data);
         if (data.success) {
             cookies().set("accessToken", data?.data?.accessToken);
             cookies().set("refreshToken", data?.data?.refreshToken);

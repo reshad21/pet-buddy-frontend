@@ -33,7 +33,7 @@ export const useUserLogin = () => {
 
 export const useUserChangePassword = () => {
     return useMutation<void, Error, FieldValues>({
-        mutationKey: ["FORGET_PASSWORD"],
+        mutationKey: ["CHANGE_PASSWORD"],
         mutationFn: async (userData) => {
             await changePassword(userData);
         },

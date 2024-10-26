@@ -17,6 +17,8 @@ export type TUserProfile = {
 
 const SettingsPage = () => {
   const { user } = useUser();
+  console.log("profile page user information-->", user?._id);
+  //now call api for get my profile information
   const router = useRouter();
   // Initialize the router
 
@@ -59,8 +61,8 @@ const SettingsPage = () => {
 
     if (isSuccess) {
       toast.success("Profile updated successfully!");
-      logout(); // Call the logOut function
-      router.push("/login"); // Navigate to the login page
+      // logout(); // Call the logOut function
+      // router.push("/login"); // Navigate to the login page
     }
   }, [error, isSuccess, logout, router]);
 

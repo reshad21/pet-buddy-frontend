@@ -21,6 +21,7 @@ const LoginPage = () => {
   const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // console.log("get data for login form-->", data);
     handleUserLogin(data);
     userLoading(true);
   };
@@ -65,13 +66,6 @@ const LoginPage = () => {
             className="text-blue-500 hover:underline"
           >
             Forgot Password?
-          </Link>
-          <span className="mx-2">/</span>
-          <Link
-            href="/change-password"
-            className="text-blue-500 hover:underline"
-          >
-            Change Password?
           </Link>
         </div>
 

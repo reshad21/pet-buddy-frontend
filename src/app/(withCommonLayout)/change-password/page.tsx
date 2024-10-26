@@ -23,7 +23,7 @@ const ChangePassword = () => {
 
   useEffect(() => {
     if (!isPending && isSuccess) {
-      router.push(redirect ? redirect : "/login");
+      router.push(redirect ? redirect : "/");
     }
   }, [isPending, isSuccess, redirect, router]);
 
