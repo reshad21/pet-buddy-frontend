@@ -32,7 +32,7 @@ export default function ContactUs() {
   return (
     <section className="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-800 py-16">
       <div className="max-w-3xl mx-auto px-8 md:px-6 lg:px-0">
-        <h2 className="text-4xl font-semibold text-center text-slate-900 mb-10">
+        <h2 className="text-4xl font-extrabold text-center text-green-800 mb-10">
           Contact Us
         </h2>
 
