@@ -67,7 +67,8 @@ export const useUserResetPassword = () => {
     return useMutation<void, Error, FieldValues>({
         mutationKey: ["RESET_PASSWORD"],
         mutationFn: async (userData) => {
-            await resetPassword(userData);
+            const { token, ...data } = userData; // Extract token if needed
+            await resetPassword(data, token); // Pass token and data to resetPassword
         },
         onSuccess: () => {
             toast.success("Password Reset Successfully!");

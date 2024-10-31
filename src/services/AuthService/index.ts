@@ -90,15 +90,19 @@ export const forgetPassword = async (userData: FieldValues) => {
     }
 }
 
-export const resetPassword = async (userData: FieldValues) => {
+export const resetPassword = async (userData: FieldValues, token: string) => {
     try {
-        const { data } = await axiosInstance.post("/auth/reset-password", { ...userData });
+        const { data } = await axiosInstance.post("/auth/reset-password", userData, {
+            headers: {
+                Authorization: token, // Include token in headers
+            },
+        });
         return data;
     } catch (error) {
-        console.error("Error forget password:", error);
+        console.error("Error resetting password:", error);
         throw error; // Rethrow the error to handle it later
     }
-}
+};
 
 // export const getCurrentUserDetailsInfo = async (postId: string): Promise<any> => {
 //     try {

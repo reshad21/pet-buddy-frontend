@@ -1,8 +1,8 @@
 "use client";
 
-import envConfig from "@/config/envConfig";
+import { useUserResetPassword } from "@/hooks/auth.hook";
 import { useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react"; // Adjust the import path as needed
 
 export default function ResetPasswordPage() {
   const searchParams = useSearchParams();
@@ -14,6 +14,9 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
+  // Use the mutation hook
+  const { mutate: resetPassword } = useUserResetPassword();
+
   const handlePasswordReset = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -22,20 +25,12 @@ export default function ResetPasswordPage() {
       return;
     }
 
+    // Prepare the user data including the token
+    const userData = { email, newPassword, token }; // Include token in the user data
+
     try {
-      const response = await fetch(`${envConfig.baseApi}/auth/reset-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token, // Sending the token as an Authorization header
-        },
-        body: JSON.stringify({ email, newPassword }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to reset password");
-      }
-
+      // Use the resetPassword mutation function to perform the reset
+      resetPassword(userData);
       setSuccess(true);
     } catch (err) {
       setError((err as Error).message);
