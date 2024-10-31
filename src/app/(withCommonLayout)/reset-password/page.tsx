@@ -20,6 +20,12 @@ export default function ResetPasswordPage() {
   const handlePasswordReset = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Simple validation
+    if (newPassword.length < 6) {
+      setError("New password must be at least 6 characters long");
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -30,8 +36,9 @@ export default function ResetPasswordPage() {
 
     try {
       // Use the resetPassword mutation function to perform the reset
-      resetPassword(userData);
+      await resetPassword(userData); // Ensure to await the resetPassword call
       setSuccess(true);
+      setError(null); // Clear any previous error message
     } catch (err) {
       setError((err as Error).message);
     }
