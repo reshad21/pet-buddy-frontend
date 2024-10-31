@@ -1,5 +1,6 @@
 "use client";
 
+import envConfig from "@/config/envConfig";
 import { useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
@@ -22,10 +23,13 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      const response = await fetch("/api/reset-password", {
+      const response = await fetch(`${envConfig.baseApi}/auth/reset-password`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token, newPassword }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token, // Sending the token as an Authorization header
+        },
+        body: JSON.stringify({ email, newPassword }),
       });
 
       if (!response.ok) {

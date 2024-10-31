@@ -91,6 +91,16 @@ export const forgetPassword = async (userData: FieldValues) => {
     }
 }
 
+export const resetPassword = async (userData: FieldValues) => {
+    try {
+        const { data } = await axiosInstance.post("/auth/reset-password", { ...userData });
+        return data;
+    } catch (error) {
+        console.error("Error forget password:", error);
+        throw error; // Rethrow the error to handle it later
+    }
+}
+
 // export const getCurrentUserDetailsInfo = async (postId: string): Promise<any> => {
 //     try {
 //         const token = cookies().get("accessToken")?.value; // Get the token
