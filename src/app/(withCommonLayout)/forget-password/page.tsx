@@ -21,30 +21,14 @@ const ForgotPassword = () => {
               htmlFor="oldPassword"
               className="block text-sm font-semibold text-gray-700 mb-2"
             >
-              Old Password
+              Enter Your Email
             </label>
             <input
-              type="password"
-              id="oldPassword"
-              {...register("oldPassword")}
+              type="email"
+              id="email"
+              {...register("email")}
               className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your old password"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="newPassword"
-              className="block text-sm font-semibold text-gray-700 mb-2"
-            >
-              New Password
-            </label>
-            <input
-              type="password"
-              id="newPassword"
-              {...register("newPassword")}
-              className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your new password"
+              placeholder="Enter your email"
               required
             />
           </div>
