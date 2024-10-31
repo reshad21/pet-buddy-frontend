@@ -1,12 +1,14 @@
 "use client";
+import { useUserForgetPassword } from "@/hooks/auth.hook";
 import { TFormdata } from "@/services/Forgetpassword";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
+  const { mutate: handleForgetPassword } = useUserForgetPassword();
   const { handleSubmit, register } = useForm<TFormdata>();
 
   const onSubmit: SubmitHandler<TFormdata> = (data) => {
-    console.log("Old and New Password:", data);
+    handleForgetPassword(data);
   };
 
   return (

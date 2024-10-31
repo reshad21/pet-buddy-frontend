@@ -17,7 +17,6 @@ const ChangePassword = () => {
   } = useUserChangePassword();
 
   const onSubmit: SubmitHandler<TFormdata> = (data) => {
-    console.log("Old and New Password:", data);
     handleChangePassword(data);
   };
 

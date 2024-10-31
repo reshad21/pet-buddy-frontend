@@ -75,6 +75,17 @@ export const changePassword = async (userData: FieldValues) => {
         const { data } = await axiosInstance.post("/auth/change-password", { ...userData });
         return data;
     } catch (error) {
+        console.error("Error change password:", error);
+        throw error; // Rethrow the error to handle it later
+    }
+}
+
+
+export const forgetPassword = async (userData: FieldValues) => {
+    try {
+        const { data } = await axiosInstance.post("/auth/forget-password", { ...userData });
+        return data;
+    } catch (error) {
         console.error("Error forget password:", error);
         throw error; // Rethrow the error to handle it later
     }
