@@ -26,7 +26,6 @@ export const loginUser = async (userData: FieldValues) => {
     // console.log("get data from axios login--->", userData);
     try {
         const { data } = await axiosInstance.post("/auth/login", userData);
-        console.log("get data from axios login from db--->", data);
         if (data.success) {
             cookies().set("accessToken", data?.data?.accessToken);
             cookies().set("refreshToken", data?.data?.refreshToken);
