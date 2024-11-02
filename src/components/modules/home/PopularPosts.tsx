@@ -23,15 +23,15 @@ const PopularPosts = () => {
       ) : (
         <ul className="space-y-2">
           {isSuccess && data ? (
-            data?.data.slice(0, 5)?.map(
-              (
-                post: IPost // Show only the first 5 posts
-              ) => (
+            data.data
+              // Assuming each post has an `upvotes` field
+              .sort((a: IPost, b: IPost) => b.upvotes - a.upvotes) // Sort posts by upvotes in descending order
+              .slice(0, 5) // Take the top 5 posts
+              .map((post: IPost) => (
                 <li key={post._id} className="text-blue-600 hover:underline">
                   <Link href={`/post/${post._id}`}>{post.title}</Link>
                 </li>
-              )
-            )
+              ))
           ) : (
             <p>Loading posts...</p>
           )}
