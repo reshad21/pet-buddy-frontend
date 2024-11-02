@@ -2,10 +2,10 @@
 
 import { useUser } from "@/context/user.provider";
 import { useGetCreatePost } from "@/hooks/createPost.hook";
-import { TCreatePostData } from "@/types"; // Import the custom hook
-import dynamic from "next/dynamic"; // Import dynamic for lazy loading
+import { TCreatePostData } from "@/types";
+import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 // Dynamically import ReactQuill to prevent SSR issues
@@ -27,7 +27,8 @@ const PostForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
+    control, // Added control here
   } = useForm<PostFormValues>({
     defaultValues: {
       title: "",
@@ -41,6 +42,10 @@ const PostForm: React.FC = () => {
   const { mutate: createPostMutation, error, isSuccess } = useGetCreatePost();
 
   const onSubmit: SubmitHandler<PostFormValues> = (data) => {
+    if (!author) {
+      toast.error("Author is not defined.");
+      return;
+    }
     const formData: TCreatePostData = {
       author,
       title: data.title,
@@ -119,11 +124,18 @@ const PostForm: React.FC = () => {
 
       <div>
         <label htmlFor="content">Content:</label>
-        <ReactQuill
-          id="content"
-          {...register("content", { required: "Content is required" })}
-          onChange={(value) => setValue("content", value)} // Update the value
-          className="border rounded w-full"
+        <Controller
+          name="content"
+          control={control}
+          defaultValue=""
+          rules={{ required: "Content is required" }}
+          render={({ field }) => (
+            <ReactQuill
+              {...field}
+              onChange={(value) => field.onChange(value)}
+              className="border rounded w-full"
+            />
+          )}
         />
         {errors.content && (
           <p className="text-red-500">{errors.content.message}</p>
