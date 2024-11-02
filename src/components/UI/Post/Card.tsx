@@ -1,14 +1,21 @@
+"use client";
+import { useUser } from "@/context/user.provider"; // Import your user context or hook
 import { IPost } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { FaComment } from "react-icons/fa";
 import FollowComponent from "./FollowComponent";
 import UpDownVoteComponent from "./UpDownVoteComponent";
 
 const Card = ({ post }: { post: IPost }) => {
   const { _id, author, title, postImage, content, category, isPremium } = post;
+  const { user } = useUser(); // Get current user data
+
+  // Check if the user has access to the premium content
+  const hasAccess = user?.purchasedContent?.includes(_id) ?? false;
 
   return (
-    <div className="flex flex-col md:flex-row w-full bg-white shadow-lg rounded-lg overflow-hidden transition transform hover:-translate-y-1 hover:shadow-xl duration-300">
+    <div className="flex flex-col md:flex-row w-full bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
       {/* Left Side: Image */}
       <div className="md:w-1/3 relative h-48 md:h-auto">
         {postImage && (
@@ -67,20 +74,32 @@ const Card = ({ post }: { post: IPost }) => {
           <p className="text-gray-700 line-clamp-3 mb-4">{content}</p>
         </div>
 
-        {/* Up/Down Vote Component */}
-        <UpDownVoteComponent key={_id} post={post} />
+        <div className="flex items-center">
+          {/* Up/Down Vote Component */}
+          <UpDownVoteComponent key={_id} post={post} />
+          <button
+            className="flex items-center text-gray-600 hover:text-gray-700 transition-all duration-200 mx-2"
+            aria-label="Comments"
+          >
+            <FaComment className="text-lg" />
+            <span className="font-medium ml-1">{post.comments.length}</span>
+          </button>
+        </div>
 
         {/* Conditional Button for Premium/Non-Premium Posts */}
         <div className="mt-4">
-          <Link href={isPremium ? `/checkout/${_id}` : `/post/${_id}`} passHref>
+          <Link
+            href={isPremium && !hasAccess ? `/checkout/${_id}` : `/post/${_id}`}
+            passHref
+          >
             <button
               className={`w-full ${
-                isPremium ? "bg-green-600" : "bg-blue-600"
+                isPremium && !hasAccess ? "bg-green-600" : "bg-blue-600"
               } text-white font-semibold text-sm py-2 px-4 rounded-lg hover:${
-                isPremium ? "bg-green-700" : "bg-blue-700"
+                isPremium && !hasAccess ? "bg-green-700" : "bg-blue-700"
               } transition duration-300`}
             >
-              {isPremium ? "Checkout" : "See More"}
+              {isPremium && !hasAccess ? "Checkout" : "See More"}
             </button>
           </Link>
         </div>

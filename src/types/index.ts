@@ -56,6 +56,7 @@ export interface IUser {
     posts: string[];
     following: string[]; // Array of user IDs or objects, depending on your data structure
     followers: string[]; // Array of user IDs or objects, depending on your data structure
+    purchasedContent: string[];
     createdAt?: string;
     updatedAt?: string;
     __v?: number;

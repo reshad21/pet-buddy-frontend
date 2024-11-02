@@ -1,4 +1,4 @@
-// src/components/PostContent.tsx
+// src/components/UI/PostContent.tsx
 
 import DOMPurify from "dompurify";
 import React from "react";
@@ -9,7 +9,8 @@ interface PostContentProps {
 }
 
 const PostContent: React.FC<PostContentProps> = ({ content }) => {
-  const sanitizedContent = DOMPurify.sanitize(content); // Sanitize the content
+  // Sanitize the content using DOMPurify
+  const sanitizedContent = DOMPurify.sanitize(content);
 
   return (
     <div

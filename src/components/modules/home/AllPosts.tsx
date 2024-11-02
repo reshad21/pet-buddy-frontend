@@ -5,7 +5,7 @@ import { IPost } from "@/types";
 const AllPosts = async () => {
   const { data: posts } = await getAllPost();
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-5">
       {posts?.map((post: IPost) => (
         <Card key={post._id} post={post} />
       ))}

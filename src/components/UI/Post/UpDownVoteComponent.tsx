@@ -7,8 +7,8 @@ import {
   getUpvote,
 } from "@/services/Votes";
 import { IPost } from "@/types";
-import { FaArrowDown, FaArrowUp, FaComment } from "react-icons/fa";
-
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+// , FaComment
 const UpDownVoteComponent = ({ post }: { post: IPost }) => {
   const handleUpvote = () => {
     console.log(`Upvoted post with ID: ${post._id}`);
@@ -23,7 +23,7 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
   };
 
   return (
-    <div className="flex items-center justify-between mt-3 p-2">
+    <div className="flex items-center justify-between p-2">
       <div className="flex">
         <div className="flex items-center">
           <button
@@ -33,7 +33,7 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
           >
             <FaArrowUp className="text-lg" />
           </button>
-          <span className="text-gray-700 font-medium">{post.upvotes}</span>
+          <span className="text-gray-700 font-medium">{post?.upvotes}</span>
         </div>
 
         <div className="flex items-center mx-2">
@@ -44,16 +44,16 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
           >
             <FaArrowDown className="text-lg" />
           </button>
-          <span className="text-gray-700 font-medium">{post.downvotes}</span>
+          <span className="text-gray-700 font-medium">{post?.downvotes}</span>
         </div>
 
-        <button
+        {/* <button
           className="flex items-center text-gray-600 hover:text-gray-700 transition-all duration-200 mx-2"
           aria-label="Comments"
         >
           <FaComment className="text-lg" />
           <span className="font-medium ml-1">{post.comments.length}</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );
