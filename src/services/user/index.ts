@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
-
 import envConfig from "@/config/envConfig";
 import axiosInstance from "@/lib/AxiosInstance";
+
 export const getCurrentUserDetailsInfo = async (userId: string) => {
     const fetchOption = {
         next: {

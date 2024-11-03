@@ -31,7 +31,7 @@ const Card = ({ post }: { post: IPost }) => {
     const fetchUserData = async () => {
       if (user?._id) {
         try {
-          const response = await getUserFormAxiois(user._id);
+          const response = await getUserFormAxiois(user?._id);
           setUserData(response?.data);
         } catch (error) {
           console.error("Error fetching user data:", error);

@@ -3,8 +3,9 @@
 import { useUser } from "@/context/user.provider";
 import { useUpdateProfileDetails } from "@/hooks/updateProfile.hook";
 import { logout } from "@/services/AuthService";
+import { getUserFormAxiois } from "@/services/user";
 import { useRouter } from "next/navigation"; // Import the useRouter hook
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -15,12 +16,44 @@ export type TUserProfile = {
   img?: string; // Make `img` optional since it's not directly entered by the user
 };
 
+interface PurchasedContent {
+  _id: string;
+  isPremium: boolean;
+}
+
+interface UserData {
+  purchasedContent: PurchasedContent[];
+  email: string;
+  img: string;
+  name: string;
+  role: string;
+  mobileNumber: string;
+}
+
 const SettingsPage = () => {
   const { user } = useUser();
   // console.log("profile page user information-->", user?._id);
   //now call api for get my profile information
   const router = useRouter();
-  // Initialize the router
+
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  // Fetch user data from the database
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user?._id && !userData) {
+        // Check if userData is already set to avoid unnecessary fetches
+        try {
+          const response = await getUserFormAxiois(user?._id);
+          setUserData(response?.data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [user?._id, userData]); // Keep only essential dependencies
 
   // React Hook Form setup
   const {
@@ -31,14 +64,14 @@ const SettingsPage = () => {
   } = useForm<TUserProfile>();
 
   useEffect(() => {
-    if (user) {
+    if (userData) {
       reset({
-        name: user.name,
-        profilePhoto: user.profilePhoto,
-        mobileNumber: user.mobileNumber,
+        name: userData.name,
+        profilePhoto: userData.img,
+        mobileNumber: userData.mobileNumber,
       });
     }
-  }, [user, reset]);
+  }, [userData, reset]);
 
   const { mutate: updateprofile, error, isSuccess } = useUpdateProfileDetails();
 
