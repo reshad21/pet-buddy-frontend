@@ -18,8 +18,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     if (search) {
-      // If "all categories" is selected, pass an empty string or a specific value to fetch all posts
-      searchpost(search.toLowerCase() === "all categories" ? "" : search);
+      searchpost(search); // Call the mutation with the search term
     }
   }, [search, searchpost]);
 
@@ -48,3 +47,6 @@ const CategoryPage = () => {
 };
 
 export default CategoryPage;
+
+// http://localhost:3000/searchPostPage?search=story
+// http://localhost:3000/categories?caterogy=story

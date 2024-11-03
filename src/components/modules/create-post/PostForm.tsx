@@ -113,9 +113,8 @@ const PostForm: React.FC = () => {
           className="border p-2 rounded w-full"
         >
           <option value="">Select a category</option>
-          <option value="Story">Story</option>
-          <option value="Advice">Advice</option>
-          <option value="Tips">Tips</option>
+          <option value="story">Story</option>
+          <option value="tip">Tips</option>
         </select>
         {errors.category && (
           <p className="text-red-500">{errors.category.message}</p>
