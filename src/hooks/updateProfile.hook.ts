@@ -12,7 +12,7 @@ type ProfileUpdateVariables = {
 
 export const useUpdateProfileDetails = () => {
     return useMutation<any, Error, ProfileUpdateVariables>({
-        mutationKey: ["UPDATE_PROFILE"],
+        mutationKey: ["user_details"],
         mutationFn: async ({ profileUpdateData, postId }) =>
             await updateProfile(profileUpdateData, postId), // Ensure postId is passed correctly
         onSuccess: () => {

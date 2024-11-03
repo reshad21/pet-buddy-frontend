@@ -4,19 +4,17 @@ import envConfig from "@/config/envConfig";
 import axiosInstance from "@/lib/AxiosInstance";
 
 export const getCurrentUserDetailsInfo = async (userId: string) => {
-    const fetchOption = {
+    const fetchOption: RequestInit = {
+        cache: "no-cache" as RequestCache, // Set cache as 'no-store' with correct type
         next: {
-            tags: ["posts"],
+            tags: ["user_details"],
         },
     };
 
-    const res = await fetch(
-        `${envConfig.baseApi}/users/${userId}`,
-        fetchOption
-    );
-
+    const res = await fetch(`${envConfig.baseApi}/users/${userId}`, fetchOption);
     return res.json();
 };
+
 
 export const getSingleUserAllPosts = async (userId: string) => {
     const fetchOption = {

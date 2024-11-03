@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+
 import { useUser } from "@/context/user.provider";
 import { useUpdateProfileDetails } from "@/hooks/updateProfile.hook";
-import { logout } from "@/services/AuthService";
-import { getUserFormAxiois } from "@/services/user";
-import { useRouter } from "next/navigation"; // Import the useRouter hook
+import { getCurrentUserDetailsInfo } from "@/services/user";
+import { useRouter } from "next/navigation"; // Import useRouter
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ export type TUserProfile = {
   name: string;
   profilePhoto?: string;
   mobileNumber: string;
-  img?: string; // Make `img` optional since it's not directly entered by the user
+  img?: string;
 };
 
 interface PurchasedContent {
@@ -32,30 +32,24 @@ interface UserData {
 
 const SettingsPage = () => {
   const { user } = useUser();
-  // console.log("profile page user information-->", user?._id);
-  //now call api for get my profile information
-  const router = useRouter();
-
+  const router = useRouter(); // Initialize the router
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  // Fetch user data from the database
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (user?._id && !userData) {
-        // Check if userData is already set to avoid unnecessary fetches
-        try {
-          const response = await getUserFormAxiois(user?._id);
-          setUserData(response?.data);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
+  const fetchUserData = async () => {
+    if (user?._id) {
+      try {
+        const response = await getCurrentUserDetailsInfo(user?._id);
+        setUserData(response?.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchUserData();
-  }, [user?._id, userData]); // Keep only essential dependencies
+  }, [user?._id]);
 
-  // React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -73,31 +67,30 @@ const SettingsPage = () => {
     }
   }, [userData, reset]);
 
-  const { mutate: updateprofile, error, isSuccess } = useUpdateProfileDetails();
+  const { mutate: updateProfile, error, isSuccess } = useUpdateProfileDetails();
 
   const onSubmit: SubmitHandler<TUserProfile> = (data) => {
     const profileUpdateData = {
       name: data.name,
-      img: data.profilePhoto, // Map profilePhoto to img
+      img: data.profilePhoto,
       mobileNumber: data.mobileNumber,
     };
 
     if (user?._id) {
-      updateprofile({ profileUpdateData, postId: user._id });
+      updateProfile({ profileUpdateData, postId: user._id });
     }
   };
 
   useEffect(() => {
+    if (isSuccess) {
+      toast.success("Profile updated successfully!");
+      fetchUserData(); // Refetch user data to get updated profile
+      router.push("/profile"); // Redirect to profile page
+    }
     if (error) {
       toast.error("Error updating profile. Please try again.");
     }
-
-    if (isSuccess) {
-      toast.success("Profile updated successfully!");
-      // logout(); // Call the logOut function
-      // router.push("/login"); // Navigate to the login page
-    }
-  }, [error, isSuccess, logout, router]);
+  }, [isSuccess, error]);
 
   return (
     <div className="max-w-full mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-300">
