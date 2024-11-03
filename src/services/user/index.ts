@@ -2,6 +2,7 @@
 "use server";
 
 import envConfig from "@/config/envConfig";
+import axiosInstance from "@/lib/AxiosInstance";
 export const getCurrentUserDetailsInfo = async (userId: string) => {
     const fetchOption = {
         next: {
@@ -30,4 +31,17 @@ export const getSingleUserAllPosts = async (userId: string) => {
     );
 
     return res.json()
+}
+
+
+// get user form axios 
+
+export const getUserFormAxiois = async (id: string) => {
+    try {
+        const { data } = await axiosInstance.get(`/users/${id}`);
+        return data;
+    } catch (error) {
+        console.error("Error forget password:", error);
+        throw error; // Rethrow the error to handle it later
+    }
 }

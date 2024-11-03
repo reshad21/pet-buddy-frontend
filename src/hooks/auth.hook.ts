@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { changePassword, forgetPassword, loginUser, registerUser, resetPassword } from "@/services/AuthService";
+import { getUserFormAxiois } from "@/services/user";
 import { useMutation } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -78,3 +79,20 @@ export const useUserResetPassword = () => {
         },
     });
 };
+
+
+//get user form db id
+export const useGetmeByDbId = () => {
+    return useMutation<void, Error, string>({
+        mutationKey: ["GET_USER_INFO"],
+        mutationFn: async (id) => {
+            await getUserFormAxiois(id);
+        },
+        onSuccess: () => {
+            toast.success("User Get Successfully!");
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+    });
+}

@@ -45,6 +45,12 @@ export interface ICategory {
     __v: number;
 }
 
+
+export interface IPurchasedContent {
+    _id: string;      // ID of the purchased content
+    isPremium: boolean; // Indicates if the content is premium
+}
+
 export interface IUser {
     _id?: string;
     name: string;
@@ -56,7 +62,7 @@ export interface IUser {
     posts: string[];
     following: string[]; // Array of user IDs or objects, depending on your data structure
     followers: string[]; // Array of user IDs or objects, depending on your data structure
-    purchasedContent: string[];
+    purchasedContent?: IPurchasedContent[];
     createdAt?: string;
     updatedAt?: string;
     __v?: number;

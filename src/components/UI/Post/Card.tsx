@@ -1,18 +1,60 @@
 "use client";
-import { useUser } from "@/context/user.provider"; // Import your user context or hook
+import { useUser } from "@/context/user.provider";
+import { getUserFormAxiois } from "@/services/user";
 import { IPost } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaComment } from "react-icons/fa";
 import FollowComponent from "./FollowComponent";
 import UpDownVoteComponent from "./UpDownVoteComponent";
 
+interface PurchasedContent {
+  _id: string;
+  isPremium: boolean;
+}
+
+interface UserData {
+  purchasedContent: PurchasedContent[];
+}
+
 const Card = ({ post }: { post: IPost }) => {
   const { _id, author, title, postImage, content, category, isPremium } = post;
-  const { user } = useUser(); // Get current user data
+  const { user } = useUser();
+  const router = useRouter();
 
-  // Check if the user has access to the premium content
-  const hasAccess = user?.purchasedContent?.includes(_id) ?? false;
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  // Fetch user data from the database
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user?._id) {
+        try {
+          const response = await getUserFormAxiois(user._id);
+          setUserData(response?.data);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [user?._id]);
+
+  const handleCheckout = async () => {
+    await router.push(`/checkout/${_id}`);
+  };
+
+  // Determine access to premium content based on fetched user data
+  const hasAccess =
+    !isPremium ||
+    (userData?.purchasedContent?.some((content) => content._id === _id) ??
+      false);
+
+  // Debugging
+  console.log("User Data:", userData);
+  console.log("Has Access:", hasAccess);
 
   return (
     <div className="flex flex-col md:flex-row w-full bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
@@ -88,20 +130,20 @@ const Card = ({ post }: { post: IPost }) => {
 
         {/* Conditional Button for Premium/Non-Premium Posts */}
         <div className="mt-4">
-          <Link
-            href={isPremium && !hasAccess ? `/checkout/${_id}` : `/post/${_id}`}
-            passHref
-          >
+          {isPremium && !hasAccess ? (
             <button
-              className={`w-full ${
-                isPremium && !hasAccess ? "bg-green-600" : "bg-blue-600"
-              } text-white font-semibold text-sm py-2 px-4 rounded-lg hover:${
-                isPremium && !hasAccess ? "bg-green-700" : "bg-blue-700"
-              } transition duration-300`}
+              onClick={handleCheckout}
+              className="w-full bg-green-600 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
             >
-              {isPremium && !hasAccess ? "Checkout" : "See More"}
+              Checkout
             </button>
-          </Link>
+          ) : (
+            <Link href={`/post/${_id}`} passHref>
+              <button className="w-full bg-blue-600 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+                See More
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
