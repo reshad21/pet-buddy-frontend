@@ -79,7 +79,7 @@ const Card = ({ post }: { post: IPost }) => {
         )}
 
         {/* Category Badge */}
-        <span className="absolute bottom-2 left-2 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+        <span className="absolute bottom-2 left-2 bg-blue-800 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
           {category}
         </span>
       </div>
@@ -120,7 +120,7 @@ const Card = ({ post }: { post: IPost }) => {
           {/* Up/Down Vote Component */}
           <UpDownVoteComponent key={_id} post={post} />
           <button
-            className="flex items-center text-gray-600 hover:text-gray-700 transition-all duration-200 mx-2"
+            className="flex items-center text-blue-900 hover:text-gray-700 transition-all duration-200 mx-2"
             aria-label="Comments"
           >
             <FaComment className="text-lg" />
@@ -139,7 +139,7 @@ const Card = ({ post }: { post: IPost }) => {
             </button>
           ) : (
             <Link href={`/post/${_id}`} passHref>
-              <button className="w-full bg-blue-600 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+              <button className="w-full bg-blue-800 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
                 See More
               </button>
             </Link>

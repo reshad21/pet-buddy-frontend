@@ -17,7 +17,7 @@ export type TUserProfile = {
 
 const SettingsPage = () => {
   const { user } = useUser();
-  console.log("profile page user information-->", user?._id);
+  // console.log("profile page user information-->", user?._id);
   //now call api for get my profile information
   const router = useRouter();
   // Initialize the router

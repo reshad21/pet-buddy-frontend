@@ -12,7 +12,7 @@ const AllPosts = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage] = useState<number>(5); // Adjust the number of posts per page
+  const [postsPerPage] = useState<number>(3); // Adjust the number of posts per page
   const totalPages = Math.ceil(posts.length / postsPerPage); // Calculate total pages
 
   useEffect(() => {
@@ -31,7 +31,12 @@ const AllPosts = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading posts...</p>;
+    return (
+      <li className="flex items-center">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
+        Loading posts...
+      </li>
+    );
   }
 
   if (error) {

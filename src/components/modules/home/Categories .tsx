@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Categories = () => {
   // Sample categories
-  const categories = ["story", "tip", "travel", "finance", "lifestyle"];
+  const categories = ["story", "tip"];
 
   return (
     <div className="mb-4">

@@ -27,7 +27,7 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
       <div className="flex">
         <div className="flex items-center">
           <button
-            className="p-1 text-gray-600 hover:text-gray-700 transition-all duration-200"
+            className="p-1 text-blue-900 hover:text-gray-700 transition-all duration-200"
             onClick={handleUpvote}
             aria-label="Upvote"
           >
@@ -38,7 +38,7 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
 
         <div className="flex items-center mx-2">
           <button
-            className="p-1 text-gray-600 hover:text-gray-700 transition-all duration-200"
+            className="p-1 text-blue-900 hover:text-gray-700 transition-all duration-200"
             onClick={handleDownvote}
             aria-label="Downvote"
           >

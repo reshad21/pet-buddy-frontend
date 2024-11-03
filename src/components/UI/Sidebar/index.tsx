@@ -9,6 +9,7 @@ import { adminLinks, userLinks } from "./constants";
 
 const Sidebar = () => {
   const { user } = useUser();
+  console.log("dashboard user info-->", user?._id);
 
   return (
     <div>

@@ -1,5 +1,6 @@
 // app/searchPostPage/page.js
 "use client"; // Indicate this is a client component
+import Loading from "@/components/UI/Loading";
 import Card from "@/components/UI/Post/Card";
 import { useGetSearchPost } from "@/hooks/search.hook";
 import { IPost } from "@/types";
@@ -31,7 +32,9 @@ const SearchPostPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Search Results for: {search}</h1>
+      <h1 className="text-2xl font-extrabold mb-4 text-pretty text-gray-500">
+        Search For: {search?.toUpperCase()}
+      </h1>
       {results.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
           {results?.map((post: IPost) => (
@@ -39,7 +42,7 @@ const SearchPostPage = () => {
           ))}
         </div>
       ) : (
-        <p>No results found.</p>
+        <Loading />
       )}
     </div>
   );
