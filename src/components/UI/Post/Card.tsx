@@ -17,6 +17,10 @@ interface PurchasedContent {
 
 interface UserData {
   purchasedContent: PurchasedContent[];
+  email: string;
+  img: string;
+  name: string;
+  role: string;
 }
 
 const Card = ({ post }: { post: IPost }) => {

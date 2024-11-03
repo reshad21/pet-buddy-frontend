@@ -11,7 +11,7 @@ const ProfilePost = () => {
 
   useEffect(() => {
     if (user && user._id) {
-      getSingleUserAllPosts(user._id)
+      getSingleUserAllPosts(user?._id)
         .then((details) => {
           console.log("Fetched posts:", details?.data);
           setAllUserPost(details?.data); // Assuming details is an array of posts
