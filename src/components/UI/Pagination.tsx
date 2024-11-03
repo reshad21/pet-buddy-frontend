@@ -26,10 +26,10 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`mx-1 px-3 py-1 rounded-lg border ${
+          className={`mx-0.5 px-2 py-1 text-sm rounded border ${
             currentPage === i
-              ? "bg-blue-700 text-white border-transparent"
-              : "bg-white text-blue-700 border-blue-300 hover:bg-blue-100"
+              ? "bg-blue-900 text-white border-transparent shadow-md" // Active page styling
+              : "bg-gray-200 text-gray-700 border-gray-300 hover:bg-gray-300"
           } transition duration-200`}
         >
           {i}
@@ -40,26 +40,28 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex  mt-4">
+    <div className="flex items-center justify-end space-x-1 mt-4">
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`mx-1 px-3 py-1 rounded-lg border ${
+        className={`px-2 py-1 text-sm rounded border ${
           currentPage === 1
-            ? "bg-gray-300 text-gray-600 border-transparent"
-            : "bg-blue-700 text-white border-transparent hover:bg-blue-800"
+            ? "bg-gray-300 text-gray-500 border-transparent cursor-not-allowed" // Disabled Previous button
+            : "bg-blue-900 text-white border-transparent hover:bg-blue-800 shadow-sm"
         } transition duration-200`}
       >
         Previous
       </button>
+
       {renderPageNumbers()}
+
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`mx-1 px-3 py-1 rounded-lg border ${
+        className={`px-2 py-1 text-sm rounded border ${
           currentPage === totalPages
-            ? "bg-gray-300 text-gray-600 border-transparent"
-            : "bg-blue-700 text-white border-transparent hover:bg-blue-800"
+            ? "bg-gray-300 text-gray-500 border-transparent cursor-not-allowed" // Disabled Next button
+            : "bg-blue-900 text-white border-transparent hover:bg-blue-800 shadow-sm"
         } transition duration-200`}
       >
         Next
