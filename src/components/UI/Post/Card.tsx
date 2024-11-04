@@ -61,7 +61,7 @@ const Card = ({ post }: { post: IPost }) => {
   console.log("Has Access:", hasAccess);
 
   return (
-    <div className="flex flex-col md:flex-row w-full bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
+    <div className="flex flex-col md:flex-row w-full h-fit bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
       {/* Left Side: Image */}
       <div className="md:w-1/3 relative h-48 md:h-auto">
         {postImage && (

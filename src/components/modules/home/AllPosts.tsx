@@ -56,7 +56,7 @@ const AllPosts = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 bg-gray-100 p-5 rounded-md">
       {posts.map((post: IPost) => (
         <Card key={post._id} post={post} />
       ))}
