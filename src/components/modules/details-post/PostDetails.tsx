@@ -1,10 +1,12 @@
 "use client";
+
 import UpDownVoteComponent from "@/components/UI/Post/UpDownVoteComponent";
 import PostContent from "@/components/UI/PostContent";
 import { useUser } from "@/context/user.provider";
 import { useGetSinglePostDetails } from "@/hooks/post.hook";
 import { createComment } from "@/services/Comment";
 import { ICommentData } from "@/types";
+import jsPDF from "jspdf";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaComment } from "react-icons/fa";
@@ -48,6 +50,28 @@ const PostDetails = ({ postId }: { postId: string }) => {
         console.error("Error creating comment:", error);
       }
     }
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    // Add post title and content to the PDF
+    doc.text("Post Title: " + post?.data.title, 10, 10);
+    doc.text("Post Content: ", 10, 20);
+    doc.text(post?.data.content || "", 10, 30);
+
+    // Add post image to the PDF
+    const imageUrl = post?.data.postImage; // Assuming this is a valid image URL
+
+    // Use the global Image constructor
+    const img = new window.Image(); // or simply new Image();
+
+    img.src = imageUrl;
+
+    img.onload = () => {
+      doc.addImage(img, "JPEG", 10, 40, 180, 160); // Adjust dimensions as needed
+      doc.save("post-details.pdf");
+    };
   };
 
   return (
@@ -159,6 +183,14 @@ const PostDetails = ({ postId }: { postId: string }) => {
                 ))}
               </div>
             </div>
+
+            {/* PDF Download Button */}
+            <button
+              className="mt-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300"
+              onClick={generatePDF}
+            >
+              Download PDF
+            </button>
           </div>
         </>
       )}
