@@ -49,15 +49,12 @@ export const getMyPosts = async () => {
     return res.data;
 };
 
-//my project code 
-export const getAllPost = async () => {
-    let fetchOptions = {};
-
-    fetchOptions = {
-        cache: "no-store",
+export const getAllPost = async (page: number) => {
+    const fetchOptions = {
+        cache: "no-store" as RequestCache,
     };
 
-    const res = await fetch(`${envConfig.baseApi}/post`, fetchOptions);
+    const res = await fetch(`${envConfig.baseApi}/post?page=${page}`, fetchOptions);
 
     if (!res.ok) {
         throw new Error("Failed to fetch data");
@@ -65,6 +62,7 @@ export const getAllPost = async () => {
 
     return res.json();
 };
+
 
 
 export const getSinglePost = async (postId: string): Promise<any> => {
