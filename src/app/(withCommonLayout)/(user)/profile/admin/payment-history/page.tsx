@@ -1,33 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Pagination from "@/components/UI/Pagination";
-import { useDeletePost } from "@/hooks/deletepost.hook";
-import { useGetAllPost } from "@/hooks/getAllPost.hook";
-import { IPost } from "@/types";
+import { useGetCreatedOrder } from "@/hooks/order.hook";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const PaymentHistoryPage = () => {
-  const { mutate: allPost, data } = useGetAllPost();
+  const { mutate: allOrder, data } = useGetCreatedOrder();
+  console.log("order information--?", data?.data?.data);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage] = useState<number>(5); // Adjust the number of posts per page
+  const [ordersPerPage] = useState<number>(5); // Adjust the number of posts per page
 
-  const totalPages = data ? Math.ceil(data.data.length / postsPerPage) : 0;
+  const totalPages = data
+    ? Math.ceil(data?.data?.data.length / ordersPerPage)
+    : 0;
 
   // Pagination logic
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = data?.data.slice(indexOfFirstPost, indexOfLastPost);
+  const indexOfLastPost = currentPage * ordersPerPage;
+  const indexOfFirstPost = indexOfLastPost - ordersPerPage;
+  const currentOrders = data?.data?.data.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
   // Fetch posts when the component mounts
   useEffect(() => {
-    allPost();
-  }, [allPost]);
-
-  const { mutate: deletepost } = useDeletePost();
-
-  const handleDelete = (postId: string) => {
-    deletepost(postId);
-  };
+    allOrder();
+  }, [allOrder]);
 
   return (
     <>
@@ -38,40 +37,47 @@ const PaymentHistoryPage = () => {
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b">Image</th>
-                <th className="py-2 px-4 border-b">Title</th>
-                <th className="py-2 px-4 border-b">Actions</th>
+                <th className="py-2 px-4 border-b">Name</th>
+                <th className="py-2 px-4 border-b">Email</th>
+                <th className="py-2 px-4 border-b">Products</th>
               </tr>
             </thead>
             <tbody>
-              {currentPosts && currentPosts.length > 0 ? (
-                currentPosts.map((post: IPost) => (
-                  <tr key={post._id} className="hover:bg-gray-100">
+              {currentOrders && currentOrders.length > 0 ? (
+                currentOrders?.map((orderData: any) => (
+                  <tr key={orderData._id} className="hover:bg-gray-100">
                     <td className="py-2 px-4 border-b">
-                      {post.postImage && (
+                      {orderData?.user?.profilePhoto && (
                         <Image
                           width={40}
                           height={40}
-                          src={post.postImage}
-                          alt={post.title}
+                          src={orderData?.user?.profilePhoto}
+                          alt={orderData?.user?.name}
                           className="w-16 h-16 object-cover rounded"
                         />
                       )}
                     </td>
-                    <td className="py-2 px-4 border-b">{post.title}</td>
                     <td className="py-2 px-4 border-b">
-                      <button
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        onClick={() => handleDelete(post._id)}
-                      >
-                        Delete
-                      </button>
+                      {orderData?.user?.name}
+                    </td>
+                    <td className="py-2 px-4 border-b">
+                      {orderData?.user?.email}
+                    </td>
+                    <td className="py-2 px-4 border-b">
+                      {orderData?.products?.map((product: any) => (
+                        <div key={product._id} className="mb-2">
+                          <p>
+                            <strong>Article Id:</strong> {product._id}
+                          </p>
+                        </div>
+                      ))}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan={3}
+                    colSpan={5}
                     className="py-4 px-4 text-center text-gray-500"
                   >
                     No posts available

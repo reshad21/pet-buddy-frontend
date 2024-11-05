@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const AllUserPage = () => {
-  const { mutate: allPost, data } = useGetAllUser();
+  const { mutate: allUser, data } = useGetAllUser();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(5); // Adjust the number of posts per page
 
@@ -19,8 +19,8 @@ const AllUserPage = () => {
 
   // Fetch posts when the component mounts
   useEffect(() => {
-    allPost();
-  }, [allPost]);
+    allUser();
+  }, [allUser]);
 
   return (
     <>
