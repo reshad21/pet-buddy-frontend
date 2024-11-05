@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { changePassword, forgetPassword, loginUser, registerUser, resetPassword } from "@/services/AuthService";
-import { getUserFormAxiois } from "@/services/user";
+import { getAllUsers, getUserFormAxiois } from "@/services/user";
 import { useMutation } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -96,3 +96,18 @@ export const useGetmeByDbId = () => {
         },
     });
 }
+
+
+//get all user 
+export const useGetAllUser = (page: number = 1) => {
+    return useMutation<any, Error, void>({
+        mutationKey: ["GETALL_USERS"],
+        mutationFn: async () => await getAllUsers(page), // Ensure postId is a string
+        onSuccess: () => {
+            toast.success("All USER fetched successfully."); // Update the message for clarity
+        },
+        onError: (error: Error) => {
+            toast.error(error.message);
+        },
+    });
+};

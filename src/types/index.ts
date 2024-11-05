@@ -59,6 +59,7 @@ export interface IUser {
     status: string;
     mobileNumber?: string;
     profilePhoto: string;
+    img?: string;
     posts: string[];
     following: string[]; // Array of user IDs or objects, depending on your data structure
     followers: string[]; // Array of user IDs or objects, depending on your data structure

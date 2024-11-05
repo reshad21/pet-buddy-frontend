@@ -43,3 +43,19 @@ export const getUserFormAxiois = async (id: string) => {
         throw error; // Rethrow the error to handle it later
     }
 }
+
+
+
+export const getAllUsers = async (page: number) => {
+    const fetchOptions = {
+        cache: "no-store" as RequestCache,
+    };
+
+    const res = await fetch(`${envConfig.baseApi}/users?page=${page}`, fetchOptions);
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+};
