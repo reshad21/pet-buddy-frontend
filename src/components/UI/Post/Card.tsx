@@ -2,6 +2,7 @@
 import { useUser } from "@/context/user.provider";
 import { getUserFormAxiois } from "@/services/user";
 import { IPost } from "@/types";
+import { convert } from "html-to-text";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -56,9 +57,15 @@ const Card = ({ post }: { post: IPost }) => {
     (userData?.purchasedContent?.some((content) => content._id === _id) ??
       false);
 
-  // Debugging
-  console.log("User Data:", userData);
-  console.log("Has Access:", hasAccess);
+  // Function to truncate content to 200 words
+  const truncateContent = (content: string, wordLimit: number) => {
+    // Convert HTML to plain text
+    const plainText = convert(content, { wordwrap: false });
+    const words = plainText.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : plainText;
+  };
 
   return (
     <div className="flex flex-col md:flex-row w-full h-fit bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
@@ -117,7 +124,7 @@ const Card = ({ post }: { post: IPost }) => {
           <h2 className="text-xl font-semibold text-gray-800 mb-2 hover:text-blue-600 transition duration-300">
             {title}
           </h2>
-          <p className="text-gray-700 line-clamp-3 mb-4">{content}</p>
+          <p>{truncateContent(content, 50)}</p>
         </div>
 
         <div className="flex items-center">
