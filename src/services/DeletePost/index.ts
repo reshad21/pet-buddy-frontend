@@ -9,7 +9,7 @@ interface ApiError {
     status?: number;
 }
 
-export const deletePost = async (postId: string): Promise<void> => {
+export const deletePost = async (postId: string) => {
     try {
         // Directly await the delete call
         await axiosInstance.delete(`/post/${postId}`);
