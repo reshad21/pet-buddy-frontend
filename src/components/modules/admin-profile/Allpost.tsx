@@ -9,15 +9,20 @@ import { useEffect, useState } from "react";
 const AllPost = () => {
   const { mutate: allPost, data } = useGetAllPost();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage] = useState<number>(1); // Adjust the number of posts per page
-  const totalPages = Math.ceil(data?.data.length / postsPerPage); // Calculate total pages
+  const [postsPerPage] = useState<number>(5); // Adjust the number of posts per page
+
+  const totalPages = data ? Math.ceil(data.data.length / postsPerPage) : 0;
+
+  // Pagination logic
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = data?.data.slice(indexOfFirstPost, indexOfLastPost);
 
   // Fetch posts when the component mounts
   useEffect(() => {
     allPost();
   }, [allPost]);
 
-  // Placeholder functions for edit and delete actions
   const { mutate: deletepost } = useDeletePost();
 
   const handleDelete = (postId: string) => {
@@ -38,8 +43,8 @@ const AllPost = () => {
               </tr>
             </thead>
             <tbody>
-              {data && data.data && data.data.length > 0 ? (
-                data.data?.map((post: IPost) => (
+              {currentPosts && currentPosts.length > 0 ? (
+                currentPosts.map((post: IPost) => (
                   <tr key={post._id} className="hover:bg-gray-100">
                     <td className="py-2 px-4 border-b">
                       {post.postImage && (
