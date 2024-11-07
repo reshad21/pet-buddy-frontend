@@ -2,6 +2,7 @@
 "use client";
 
 import Card from "@/components/UI/Post/Card";
+import { useUser } from "@/context/user.provider";
 import { getAllPost } from "@/services/Post";
 import { IPost } from "@/types";
 import { useEffect, useState } from "react";
@@ -12,6 +13,8 @@ const AllPosts = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const { user } = useUser();
 
   // Fetch posts function
   const fetchPosts = async (pageNum: number) => {
@@ -58,7 +61,7 @@ const AllPosts = () => {
   return (
     <div className="flex flex-col gap-5 bg-gray-100 p-5 rounded-md">
       {posts.map((post: IPost) => (
-        <Card key={post._id} post={post} />
+        <Card key={post._id} post={post} user={user} />
       ))}
       {loading && (
         <li className="flex items-center">

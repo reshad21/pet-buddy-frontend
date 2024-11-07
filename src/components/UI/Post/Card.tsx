@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useUser } from "@/context/user.provider";
 import { getUserFormAxiois } from "@/services/user";
-import { IPost } from "@/types";
+import { IPost, IUser } from "@/types";
 import { convert } from "html-to-text";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,11 +24,13 @@ interface UserData {
   role: string;
 }
 
-const Card = ({ post }: { post: IPost }) => {
+const Card = ({ post, user }: { post: IPost; user: IUser | null }) => {
   const { _id, author, title, postImage, content, category, isPremium } = post;
-  const { user } = useUser();
-  const router = useRouter();
+  // const { user } = useUser();
+  console.log("Card component rendered", post);
 
+  console.log("get user all detaisl from card-->", user);
+  const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
 
   // Fetch user data from the database
@@ -36,14 +38,14 @@ const Card = ({ post }: { post: IPost }) => {
     const fetchUserData = async () => {
       if (user?._id) {
         try {
-          const response = await getUserFormAxiois(user?._id);
+          const response = await getUserFormAxiois(user._id);
           setUserData(response?.data);
+          console.log("Fetched userData:", response?.data);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
       }
     };
-
     fetchUserData();
   }, [user?._id]);
 
@@ -51,15 +53,16 @@ const Card = ({ post }: { post: IPost }) => {
     await router.push(`/checkout/${_id}`);
   };
 
-  // Determine access to premium content based on fetched user data
+  // Determine access to premium content
   const hasAccess =
     !isPremium ||
     (userData?.purchasedContent?.some((content) => content._id === _id) ??
       false);
 
-  // Function to truncate content to 200 words
+  console.log("User access for post:", _id, "is", hasAccess);
+
+  // Function to truncate content to a specified word limit
   const truncateContent = (content: string, wordLimit: number) => {
-    // Convert HTML to plain text
     const plainText = convert(content, { wordwrap: false });
     const words = plainText.split(" ");
     return words.length > wordLimit
@@ -81,14 +84,12 @@ const Card = ({ post }: { post: IPost }) => {
             priority
           />
         )}
-
         {/* Premium Badge */}
         {isPremium && (
           <span className="absolute top-2 right-2 bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
             Premium
           </span>
         )}
-
         {/* Category Badge */}
         <span className="absolute bottom-2 left-2 bg-blue-800 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
           {category}
