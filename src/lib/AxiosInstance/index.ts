@@ -34,35 +34,41 @@ axiosInstance.interceptors.request.use(
 
 
 // Add a response interceptor for error handling
+const errorMessages: Record<number, string> = {
+    400: "Bad request. Please check your input.",
+    401: "Unauthorized access. Please log in.",
+    403: "Forbidden. You don't have permission to access this resource.",
+    404: "Not found. The requested resource does not exist.",
+    408: "Request timed out. Please try again.",
+    500: "Internal server error. Please try again later.",
+    502: "Bad gateway. The server is down.",
+    503: "Service unavailable. Please try again later.",
+    504: "Gateway timeout. The server took too long to respond.",
+};
+
 axiosInstance.interceptors.response.use(
     function (response) {
-        return response;  // Return the response if it is successful
+        return response;  // Return the response if successful
     },
     function (error) {
-        // Check if error is an AxiosError
         if (axios.isAxiosError(error)) {
             const status = error.response?.status;
             const responseData = error.response?.data;
 
             let errorMessage = "An unexpected error occurred. Please try again.";
 
-            // Check if backend provides a structured error message
             if (responseData && responseData.success === false && responseData.message) {
-                errorMessage = responseData.message;  // Use the backend's error message
-            } else if (status === 404) {
-                errorMessage = "User is not exist.";
-            } else if (status === 500) {
-                errorMessage = "Server error. Please try again later.";
+                errorMessage = responseData.message;  // Use backend's error message if available
+            } else if (status && errorMessages[status]) {
+                errorMessage = errorMessages[status];  // Use predefined error message for common status codes
             } else {
                 errorMessage = error.message || errorMessage;  // Fallback to Axios' default message
             }
 
-            // Reject the promise with a custom error message
-            return Promise.reject(new Error(errorMessage));
+            return Promise.reject(new Error(errorMessage)); // Reject with the custom error message
         }
 
-        // If the error is not an AxiosError, reject with a generic message
-        return Promise.reject(new Error("An unknown error occurred."));
+        return Promise.reject(new Error("An unknown error occurred.")); // Handle non-Axios errors
     }
 );
 
