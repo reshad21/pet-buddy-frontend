@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createPost } from "@/services/CreatePost";
+import { createPost } from "@/services/Post";
 import { TCreatePostData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -16,7 +16,7 @@ type CreatePostResponse = {
 
 export const useGetCreatePost = () => {
     return useMutation<CreatePostResponse, Error, TCreatePostData>({
-        mutationKey: ["CREATE_POST"],
+        mutationKey: ["POST_TAG"],
         mutationFn: async (formData: TCreatePostData) => await createPost(formData),
         onSuccess: () => {
             toast.success("Post created successfully."); // Updated message for clarity

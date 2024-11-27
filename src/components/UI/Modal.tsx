@@ -1,5 +1,5 @@
 "use client";
-import { updatePost } from "@/services/UpdatePost";
+import { updatePost } from "@/services/Post";
 import { TCreatePostData } from "@/types";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -91,7 +91,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, post }) => {
             <textarea
               id="content"
               {...register("content", { required: true })}
-              rows={4}
+              rows={7}
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2 resize-none"
               placeholder="Enter your post content here..."
             />

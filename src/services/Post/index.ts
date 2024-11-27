@@ -5,41 +5,56 @@ import { revalidateTag } from "next/cache";
 
 import envConfig from "@/config/envConfig";
 import axiosInstance from "@/lib/AxiosInstance";
+import { TCreatePostData } from "@/types";
 import { getCurrentUser } from "../AuthService";
 
 
-export const createPost = async (formData: FormData): Promise<any> => {
+// export const createPost = async (formData: FormData): Promise<any> => {
+//     try {
+//         const { data } = await axiosInstance.post("/items", formData, {
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//             },
+//         });
+
+//         revalidateTag("posts");
+
+//         return data;
+//     } catch (error) {
+//         console.log(error);
+//         throw new Error("Failed to create post");
+//     }
+// };
+
+
+export const createPost = async (formData: TCreatePostData): Promise<any> => {
+    const { author,
+        title,
+        postImage,
+        content,
+        category,
+        isPremium } = formData;
+
     try {
-        const { data } = await axiosInstance.post("/items", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
+        const { data } = await axiosInstance.post("/post", {
+            author,
+            title,
+            postImage,
+            content,
+            category,
+            isPremium
         });
 
-        revalidateTag("posts");
+        revalidateTag("POST_TAG");
 
         return data;
     } catch (error) {
-        console.log(error);
-        throw new Error("Failed to create post");
+        // Handle error and show error toast if needed
+        console.error("Error creating post:", error);
+        throw error; // Rethrow the error to handle it later
     }
 };
 
-export const getPost = async (postId: string) => {
-    let fetchOptions = {};
-
-    fetchOptions = {
-        cache: "no-store",
-    };
-
-    const res = await fetch(`${envConfig.baseApi}/items/${postId}`, fetchOptions);
-
-    if (!res.ok) {
-        throw new Error("Failed to fetch data");
-    }
-
-    return res.json();
-};
 
 export const getMyPosts = async () => {
     const user = await getCurrentUser();
@@ -52,6 +67,7 @@ export const getMyPosts = async () => {
 export const getAllPost = async (page: number) => {
     const fetchOptions = {
         cache: "no-store" as RequestCache,
+        // next: { tags: ["POST_TAG"], revalidate: 60 } dont need to use becuse use no-store
     };
 
     const res = await fetch(`${envConfig.baseApi}/post?page=${page}`, fetchOptions);
@@ -68,9 +84,6 @@ export const getAllPost = async (page: number) => {
 export const getSinglePost = async (postId: string): Promise<any> => {
     try {
         const res = await axiosInstance.get(`/post/${postId}`);
-        revalidateTag("post");
-        revalidateTag("UPDATE_POST");
-        revalidateTag("DELETE_POST");
         return res.data;
     } catch (error) {
         // Log the error for debugging
@@ -94,4 +107,54 @@ export const searchPosts = async (searchData: string) => {
     }
 
     return res.json();
+};
+
+
+export const updatePost = async (modalData: TCreatePostData, postId: string): Promise<any> => {
+    const {
+        title,
+        postImage,
+        content,
+        category } = modalData;
+
+    try {
+        const { data } = await axiosInstance.patch(`/post/${postId}`, {
+            title,
+            postImage,
+            content,
+            category,
+        });
+        revalidateTag("POST_TAG");
+        return data;
+    } catch (error) {
+        // Handle error and show error toast if needed
+        console.error("Error updating post:", error);
+        throw error; // Rethrow the error to handle it later
+    }
+};
+
+
+// Define a more specific error type for better type safety
+interface ApiError {
+    message: string;
+    status?: number;
+}
+
+export const deletePost = async (postId: string) => {
+    try {
+        // Directly await the delete call
+        await axiosInstance.delete(`/post/${postId}`);
+
+        // Revalidate cache tag after successful deletion
+        revalidateTag("POST_TAG");
+    } catch (error) {
+        // Handle error and show error toast if needed
+        const apiError = error as ApiError; // Type assertion
+        console.error("Error deleting post:", apiError.message);
+
+        // Optional: You can use a toast notification library to show error messages
+        // toast.error(`Failed to delete post: ${apiError.message}`);
+
+        throw apiError; // Rethrow the error to handle it later
+    }
 };
