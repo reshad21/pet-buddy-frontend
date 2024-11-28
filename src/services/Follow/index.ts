@@ -2,7 +2,6 @@
 "use server";
 
 import axiosInstance from "@/lib/AxiosInstance";
-import { revalidateTag } from "next/cache";
 
 // Function to handle following a user
 export const hitFollow = async (followerId: string): Promise<any> => {
@@ -12,8 +11,6 @@ export const hitFollow = async (followerId: string): Promise<any> => {
         // Sending the follow request to the server
         const { data } = await axiosInstance.post(`users/follow/${followerId}`);
 
-        // Revalidating the cache tag for follow
-        revalidateTag("follow");
 
         return data; // Return the response data
     } catch (error: any) {
@@ -32,8 +29,6 @@ export const hitUnfollow = async (followerId: string): Promise<any> => {
         // Sending the unfollow request to the server
         const { data } = await axiosInstance.delete(`users/unfollow/${followerId}`);
 
-        // Revalidating the cache tag for unfollow
-        revalidateTag("follow");
 
         return data; // Return the response data
     } catch (error: any) {

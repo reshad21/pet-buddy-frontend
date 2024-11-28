@@ -20,7 +20,6 @@ import NavbarDropdown from "./NavbarDropdown";
 
 export const Navbar = () => {
   const { user } = useUser();
-  console.log("user get by contenxt-->", user);
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">

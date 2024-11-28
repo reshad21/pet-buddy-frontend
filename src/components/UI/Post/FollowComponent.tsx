@@ -1,48 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { useUser } from "@/context/user.provider";
+import { useGetmeByDbId } from "@/hooks/auth.hook";
 import { hitFollow } from "@/services/Follow";
-import { useState } from "react";
-import { toast } from "sonner"; // Import the toast function from sonner
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const FollowComponent = ({
   author,
 }: {
   author: { _id: string; name: string };
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUser();
+
+  const { mutate: loginUserInfo, data } = useGetmeByDbId();
+
+  const [followLoading, setFollowLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?._id) {
+      loginUserInfo(user._id);
+    }
+  }, [loginUserInfo, user?._id]);
 
   const handleFollow = async () => {
     try {
-      setIsLoading(true);
-      // Call the follow service with the author's ID
-      await hitFollow(author._id);
-      console.log("Successfully followed the user:", author._id);
-
-      // Show success toast notification
+      setFollowLoading(true); // Set loading for follow action
+      await hitFollow(author._id); // Execute the follow
       toast.success(`Successfully followed ${author.name}!`);
     } catch (error: any) {
       console.error("Failed to follow user:", error);
-
-      // Handle different error messages
-      if (error.message === "Already following this user") {
-        toast.info("Already following this user."); // Show info message for already following
-      } else {
-        toast.error(error.message || "Because already follow"); // Show general error message
-      }
+      toast.error(error.message || "Something went wrong.");
     } finally {
-      setIsLoading(false);
+      setFollowLoading(false); // Reset the loading state
     }
   };
+
+  // Check if user is still loading or not available, return loading message
+  if (!user) {
+    return <div>Loading user...</div>;
+  }
+
+  // Ensure that the user data has been fetched before rendering the component
+  if (!data) {
+    return <div>Loading user information...</div>;
+  }
+
+  console.log("LOGIN USER DATA", data.data);
 
   return (
     <button
       onClick={handleFollow}
-      disabled={isLoading}
+      disabled={followLoading} // Disable button when follow action is in progress
       className={`bg-blue-500 text-white text-sm py-1 px-4 rounded-full transition duration-300 ml-4 ${
-        isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
+        followLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
       }`}
     >
-      {isLoading ? "Following..." : "Follow"}
+      {followLoading ? "Following..." : "Follow"}{" "}
+      {/* Show the right button text */}
     </button>
   );
 };

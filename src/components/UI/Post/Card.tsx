@@ -27,9 +27,7 @@ interface UserData {
 const Card = ({ post, user }: { post: IPost; user: IUser | null }) => {
   const { _id, author, title, postImage, content, category, isPremium } = post;
   // const { user } = useUser();
-  console.log("Card component rendered", post);
 
-  console.log("get user all detaisl from card-->", user);
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
 
@@ -40,7 +38,6 @@ const Card = ({ post, user }: { post: IPost; user: IUser | null }) => {
         try {
           const response = await getUserFormAxiois(user._id);
           setUserData(response?.data);
-          console.log("Fetched userData:", response?.data);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -58,8 +55,6 @@ const Card = ({ post, user }: { post: IPost; user: IUser | null }) => {
     !isPremium ||
     (userData?.purchasedContent?.some((content) => content._id === _id) ??
       false);
-
-  console.log("User access for post:", _id, "is", hasAccess);
 
   // Function to truncate content to a specified word limit
   const truncateContent = (content: string, wordLimit: number) => {

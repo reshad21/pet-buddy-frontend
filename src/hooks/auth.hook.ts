@@ -79,12 +79,12 @@ export const useUserResetPassword = () => {
 };
 
 
-//get user form db id
+//get login user all information from db
 export const useGetmeByDbId = () => {
-    return useMutation<void, Error, string>({
-        mutationKey: ["GET_USER_INFO"],
+    return useMutation<any, Error, string>({
         mutationFn: async (id) => {
-            await getUserFormAxiois(id);
+            const user = await getUserFormAxiois(id);
+            return user;
         },
         onSuccess: () => {
             toast.success("User Get Successfully!");
