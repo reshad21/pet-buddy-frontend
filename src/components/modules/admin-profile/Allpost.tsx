@@ -1,94 +1,79 @@
 "use client";
-import Pagination from "@/components/UI/Pagination";
-import { useDeletePost } from "@/hooks/deletepost.hook";
-import { useGetAllPost } from "@/hooks/getAllPost.hook";
+
+import Card from "@/components/UI/Post/Card";
+import { useUser } from "@/context/user.provider";
+import { useGetAllPost } from "@/hooks/getAllPost.hook"; // Assuming this is the custom hook
 import { IPost } from "@/types";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const AllPost = () => {
-  const { mutate: allPost, data } = useGetAllPost();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage] = useState<number>(5); // Adjust the number of posts per page
+const AllPosts = () => {
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const totalPages = data ? Math.ceil(data.data.length / postsPerPage) : 0;
+  const { user } = useUser();
 
-  // Pagination logic
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = data?.data.slice(indexOfFirstPost, indexOfLastPost);
+  // Use the custom hook to get posts and handle loading, error, and pagination
+  const { data, isLoading, isError, isSuccess } = useGetAllPost(page);
 
-  // Fetch posts when the component mounts
   useEffect(() => {
-    allPost();
-  }, [allPost]);
+    if (data && data.data.length === 0) {
+      setHasMore(false); // No more posts to load
+    }
+  }, [data]);
 
-  const { mutate: deletepost } = useDeletePost();
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 200
+      ) {
+        if (hasMore && !isLoading) {
+          setPage((prevPage) => prevPage + 1); // Increment page number
+        }
+      }
+    };
 
-  const handleDelete = (postId: string) => {
-    deletepost(postId);
-  };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore, isLoading]);
+
+  if (isError) {
+    return (
+      <p className="text-red-500">
+        Failed to load posts. Please try again later.
+      </p>
+    );
+  }
+
+  if (isLoading && page === 1) {
+    return (
+      <div className="flex justify-center items-center mt-10">
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+        <p className="ml-2">Loading posts...</p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className="p-2">
-        <h1 className="text-2xl font-bold mb-4">All Posts</h1>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border-b">Image</th>
-                <th className="py-2 px-4 border-b">Title</th>
-                <th className="py-2 px-4 border-b">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentPosts && currentPosts.length > 0 ? (
-                currentPosts.map((post: IPost) => (
-                  <tr key={post._id} className="hover:bg-gray-100">
-                    <td className="py-2 px-4 border-b">
-                      {post.postImage && (
-                        <Image
-                          width={40}
-                          height={40}
-                          src={post.postImage}
-                          alt={post.title}
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                      )}
-                    </td>
-                    <td className="py-2 px-4 border-b">{post.title}</td>
-                    <td className="py-2 px-4 border-b">
-                      <button
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        onClick={() => handleDelete(post._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan={3}
-                    className="py-4 px-4 text-center text-gray-500"
-                  >
-                    No posts available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+    <div className="flex flex-col gap-5 bg-gray-100 p-5 rounded-md">
+      {isSuccess && data?.data.length > 0 ? (
+        data.data.map((post: IPost) => (
+          <Card key={post._id} post={post} user={user} />
+        ))
+      ) : (
+        <p className="text-center text-gray-500">No posts available.</p>
+      )}
+      {isLoading && page > 1 && (
+        <div className="flex justify-center items-center mt-5">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+          <p className="ml-2">Loading more posts...</p>
         </div>
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page: number) => setCurrentPage(page)}
-      />
-    </>
+      )}
+      {!hasMore && !isLoading && (
+        <p className="text-center text-gray-500 mt-5">No more posts to load.</p>
+      )}
+    </div>
   );
 };
 
-export default AllPost;
+export default AllPosts;

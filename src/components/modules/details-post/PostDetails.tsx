@@ -19,15 +19,14 @@ const PostDetails = ({ postId }: { postId: string }) => {
     data: post, // Capture the fetched data
   } = useGetSinglePostDetails();
 
+  // Fetch post details when the component mounts
   useEffect(() => {
     fetchPostDetails(postId);
   }, [postId, fetchPostDetails]);
 
   const [comment, setComment] = useState("");
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState<ICommentData[]>(
-    post?.data.comments || []
-  );
+  const [comments, setComments] = useState<ICommentData[]>([]);
 
   useEffect(() => {
     if (isSuccess && post?.data.comments) {
@@ -63,9 +62,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
     // Add post image to the PDF
     const imageUrl = post?.data.postImage; // Assuming this is a valid image URL
 
-    // Use the global Image constructor
     const img = new window.Image(); // or simply new Image();
-
     img.src = imageUrl;
 
     img.onload = () => {

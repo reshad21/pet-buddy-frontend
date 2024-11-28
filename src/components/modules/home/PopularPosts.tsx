@@ -2,15 +2,9 @@
 import { useGetAllPost } from "@/hooks/getAllPost.hook";
 import { IPost } from "@/types";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const PopularPosts = () => {
-  const { mutate: getPosts, isSuccess, error, data } = useGetAllPost();
-
-  // Fetch posts when the component mounts
-  useEffect(() => {
-    getPosts();
-  }, [getPosts]);
+  const { isSuccess, error, data } = useGetAllPost();
 
   return (
     <div className="mb-4">
