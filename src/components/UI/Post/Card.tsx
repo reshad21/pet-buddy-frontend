@@ -124,8 +124,8 @@ const Card = ({ post, user }: { post: IPost; user: IUser | null }) => {
         </div>
 
         <div className="flex items-center">
-          {/* Up/Down Vote Component */}
           <UpDownVoteComponent key={_id} post={post} />
+
           <button
             className="flex items-center text-blue-900 hover:text-gray-700 transition-all duration-200 mx-2"
             aria-label="Comments"

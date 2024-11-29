@@ -27,7 +27,6 @@ export const useUserLogin = () => {
         },
         onError: (error) => {
             console.error("Error during login:-->", error);
-            // Show the error message in a toast notification
             toast.error(error.message);
         },
     });
@@ -86,9 +85,6 @@ export const useGetmeByDbId = () => {
             const user = await getUserFormAxiois(id);
             return user;
         },
-        onSuccess: () => {
-            toast.success("User Get Successfully!");
-        },
         onError: (error) => {
             toast.error(error.message);
         },
@@ -96,7 +92,7 @@ export const useGetmeByDbId = () => {
 }
 
 
-//get all user 
+//get all user for admin dashborad 
 export const useGetAllUser = (page: number = 1) => {
     return useMutation<any, Error, void>({
         mutationKey: ["GETALL_USERS"],

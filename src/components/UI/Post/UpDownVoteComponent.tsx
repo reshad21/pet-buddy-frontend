@@ -1,25 +1,30 @@
 "use client";
 
 import {
-  createDownvote,
-  createUpvote,
-  getDownvote,
-  getUpvote,
-} from "@/services/Votes";
+  useCreateDownvote,
+  useCreateUpvote,
+  useGetDownVote,
+  useGetUpVote,
+} from "@/hooks/vote.hook";
 import { IPost } from "@/types";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { TbArrowBigDown, TbArrowBigUp } from "react-icons/tb";
 // , FaComment
 const UpDownVoteComponent = ({ post }: { post: IPost }) => {
+  const { mutate: upvote } = useCreateUpvote();
+  const { mutate: downvote } = useCreateDownvote();
+
+  const { data: upvotedata } = useGetUpVote(post._id);
+  const { data: downvotedata } = useGetDownVote(post._id);
+
+  // console.log("get all upvote from db-->", upvotedata?.data);
+  // console.log("get all downvote from db-->", downvotedata?.data);
+
   const handleUpvote = () => {
-    console.log(`Upvoted post with ID: ${post._id}`);
-    createUpvote(post._id);
-    getUpvote();
+    upvote(post._id);
   };
 
   const handleDownvote = () => {
-    console.log(`Downvoted post with ID: ${post._id}`);
-    createDownvote(post._id);
-    getDownvote();
+    downvote(post._id);
   };
 
   return (
@@ -31,9 +36,9 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
             onClick={handleUpvote}
             aria-label="Upvote"
           >
-            <FaArrowUp className="text-lg" />
+            <TbArrowBigUp className="text-lg" />
           </button>
-          <span className="text-gray-700 font-medium">{post?.upvotes}</span>
+          <span className="text-gray-700 font-medium">{upvotedata?.data}</span>
         </div>
 
         <div className="flex items-center mx-2">
@@ -42,9 +47,11 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
             onClick={handleDownvote}
             aria-label="Downvote"
           >
-            <FaArrowDown className="text-lg" />
+            <TbArrowBigDown className="text-lg" />
           </button>
-          <span className="text-gray-700 font-medium">{post?.downvotes}</span>
+          <span className="text-gray-700 font-medium">
+            {downvotedata?.data}
+          </span>
         </div>
 
         {/* <button

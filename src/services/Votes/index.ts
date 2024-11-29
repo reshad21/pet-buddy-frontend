@@ -1,68 +1,25 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use server";
-
+"use server"
 import envConfig from "@/config/envConfig";
 import axiosInstance from "@/lib/AxiosInstance";
-import { revalidateTag } from "next/cache";
 
-export const createUpvote = async (postId: string): Promise<any> => {
-    try {
-        const { data } = await axiosInstance.post(`/vote/upvote/${postId}`);
-
-        revalidateTag("upvote");
-
-        return data;
-    } catch (error) {
-        console.log(error);
-        throw new Error("Failed to create upvote");
-    }
+export const createUpvote = async (postId: string): Promise<{ message: string }> => {
+    const { data } = await axiosInstance.post(`/vote/upvote/${postId}`);
+    return data;
 };
 
+export const createDownvote = async (postId: string): Promise<{ message: string }> => {
+    const { data } = await axiosInstance.post(`/vote/downvote/${postId}`);
+    return data;
+};
 
-
-export const getUpvote = async () => {
-    const fetchOption = {
-        next: {
-            tags: ["upvote"],
-        },
-    };
-
-    const res = await fetch(
-        `${envConfig.baseApi}/vote/upvote`,
-        fetchOption
-    );
-
+export const getUpvote = async (postId: string) => {
+    const fetchOption = { next: { tags: ["upvote"] } };
+    const res = await fetch(`${envConfig.baseApi}/vote/upvote/${postId}`, fetchOption);
     return res.json();
 };
 
-
-
-export const createDownvote = async (postId: string): Promise<any> => {
-    try {
-        const { data } = await axiosInstance.post(`/vote/downvote/${postId}`);
-
-        revalidateTag("downvote");
-
-        return data;
-    } catch (error) {
-        console.log(error);
-        throw new Error("Failed to create downvote");
-    }
-};
-
-
-
-export const getDownvote = async () => {
-    const fetchOption = {
-        next: {
-            tags: ["downvote"],
-        },
-    };
-
-    const res = await fetch(
-        `${envConfig.baseApi}/vote/downvote`,
-        fetchOption
-    );
-
+export const getDownvote = async (postId: string) => {
+    const fetchOption = { next: { tags: ["downvote"] } };
+    const res = await fetch(`${envConfig.baseApi}/vote/downvote/${postId}`, fetchOption);
     return res.json();
 };
