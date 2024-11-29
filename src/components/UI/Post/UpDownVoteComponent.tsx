@@ -53,14 +53,6 @@ const UpDownVoteComponent = ({ post }: { post: IPost }) => {
             {downvotedata?.data}
           </span>
         </div>
-
-        {/* <button
-          className="flex items-center text-gray-600 hover:text-gray-700 transition-all duration-200 mx-2"
-          aria-label="Comments"
-        >
-          <FaComment className="text-lg" />
-          <span className="font-medium ml-1">{post.comments.length}</span>
-        </button> */}
       </div>
     </div>
   );
