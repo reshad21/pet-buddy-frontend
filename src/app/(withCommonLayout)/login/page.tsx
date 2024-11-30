@@ -1,18 +1,15 @@
 "use client";
 
-import FXForm from "@/components/form/FXForm";
-import FXInput from "@/components/form/FXInput";
 import { useUser } from "@/context/user.provider";
 import { useUserLogin } from "@/hooks/auth.hook";
-import loginValidationSchema from "@/schemas/login.schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const searchParams = useSearchParams();
   const router = useRouter();
   const redirect = searchParams.get("redirect");
@@ -20,9 +17,9 @@ const LoginPage = () => {
   const { setIsLoading: userLoading } = useUser();
   const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // console.log("get data for login form-->", data);
-    handleUserLogin(data);
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleUserLogin({ email, password });
     userLoading(true);
   };
 
@@ -32,6 +29,17 @@ const LoginPage = () => {
     }
   }, [isPending, isSuccess, redirect, router]);
 
+  // Handle button click to set user or admin credentials
+  const handleRoleClick = (role: "admin" | "user") => {
+    if (role === "admin") {
+      setEmail("admin@gmail.com");
+      setPassword("123456");
+    } else {
+      setEmail("petbuddy@gmail.com");
+      setPassword("123456");
+    }
+  };
+
   return (
     <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center bg-gray-50 px-4">
       <h3 className="my-2 text-3xl font-bold text-gray-800">
@@ -39,15 +47,36 @@ const LoginPage = () => {
       </h3>
       <p className="mb-6 text-gray-600">Welcome back! Let’s get started.</p>
       <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md">
-        <FXForm
-          onSubmit={onSubmit}
-          resolver={zodResolver(loginValidationSchema)}
-        >
+        <form onSubmit={onSubmit}>
           <div className="py-3">
-            <FXInput name="email" label="Email" type="email" />
+            <label
+              htmlFor="email"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+            />
           </div>
           <div className="py-3">
-            <FXInput name="password" label="Password" type="password" />
+            <label
+              htmlFor="password"
+              className="block text-sm font-semibold text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+            />
           </div>
 
           <Button
@@ -58,7 +87,7 @@ const LoginPage = () => {
           >
             Login
           </Button>
-        </FXForm>
+        </form>
 
         <div className="my-4 text-center text-gray-600">
           <Link
@@ -73,6 +102,22 @@ const LoginPage = () => {
           <span className="w-full h-px bg-gray-300"></span>
           <span className="mx-3 text-sm text-gray-500">OR</span>
           <span className="w-full h-px bg-gray-300"></span>
+        </div>
+
+        {/* Buttons for admin and user */}
+        <div className="flex justify-center gap-4">
+          <Button
+            onClick={() => handleRoleClick("admin")}
+            className="w-full bg-green-600 text-white hover:bg-green-700"
+          >
+            Admin
+          </Button>
+          <Button
+            onClick={() => handleRoleClick("user")}
+            className="w-full bg-blue-600 text-white hover:bg-blue-700"
+          >
+            User
+          </Button>
         </div>
 
         <div className="text-center">
