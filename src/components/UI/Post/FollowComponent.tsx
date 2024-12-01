@@ -72,10 +72,10 @@ const FollowComponent = ({
       <button
         onClick={handleFollow}
         disabled={followLoading || followStatus === "pending"}
-        className={`bg-blue-500 text-white text-sm py-1 px-4 rounded-full transition duration-300 ml-4 ${
+        className={`bg-[#783bc5] text-white text-sm py-1 px-4 rounded-full transition duration-300 ml-4 ${
           followLoading || followStatus === "pending"
             ? "opacity-50 cursor-not-allowed"
-            : "hover:bg-blue-600"
+            : "hover:bg-[#783bc5]"
         }`}
       >
         {followLoading || followStatus === "pending"
@@ -89,7 +89,7 @@ const FollowComponent = ({
   if (!data) {
     return (
       <div className="flex justify-center items-center">
-        <div className="size-6 border-4 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+        <div className="size-6 border-4 border-t-4 border-[#783bc5] border-solid rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -102,12 +102,12 @@ const FollowComponent = ({
         followStatus === "pending" ||
         unfollowStatus === "pending"
       }
-      className={`bg-blue-500 text-white text-sm py-1 px-4 rounded-full transition duration-300 ml-4 ${
+      className={`bg-[#783bc5] text-white text-sm py-1 px-4 rounded-full transition duration-300 ml-4 ${
         followLoading ||
         followStatus === "pending" ||
         unfollowStatus === "pending"
           ? "opacity-50 cursor-not-allowed"
-          : "hover:bg-blue-600"
+          : "hover:bg-[#783bc5]"
       }`}
     >
       {followLoading ||

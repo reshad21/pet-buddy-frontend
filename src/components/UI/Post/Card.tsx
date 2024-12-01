@@ -71,7 +71,7 @@ const Card = ({ post, user }: CardProps) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-fit bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
+    <div className="flex flex-col md:flex-row w-full h-fit bg-[#f4f6f7] shadow-lg rounded-lg overflow-hidden hover:shadow-xl">
       {/* Left Side: Image */}
       <div className="md:w-1/3 relative h-48 md:h-auto">
         {postImage && (
@@ -86,12 +86,12 @@ const Card = ({ post, user }: CardProps) => {
         )}
         {/* Premium Badge */}
         {isPremium && (
-          <span className="absolute top-2 right-2 bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+          <span className="absolute top-2 right-2 bg-[#4ff38b] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
             Premium
           </span>
         )}
         {/* Category Badge */}
-        <span className="absolute bottom-2 left-2 bg-blue-800 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+        <span className="absolute bottom-2 left-2 bg-[#ef8212] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
           {category}
         </span>
       </div>
@@ -111,10 +111,10 @@ const Card = ({ post, user }: CardProps) => {
               />
             </div>
             <div className="ml-4">
-              <h4 className="text-base font-medium text-gray-900">
+              <h4 className="text-base font-medium text-[#0d1011]">
                 {author.name}
               </h4>
-              <p className="text-xs text-gray-500">{author.email}</p>
+              <p className="text-xs text-[#2b7e1c]">{author.email}</p>
             </div>
           </div>
           <FollowComponent author={author} />
@@ -122,7 +122,7 @@ const Card = ({ post, user }: CardProps) => {
 
         {/* Post Title and Content */}
         <div className="mb-4">
-          <h2 className="text-md font-semibold text-gray-800 mb-2 hover:text-blue-600 transition duration-300">
+          <h2 className="text-md font-semibold text-[#0d1011] mb-2 hover:text-[#ef8212] transition duration-300">
             {title}
           </h2>
           <p>{truncateContent(content, 15)}</p>
@@ -132,7 +132,7 @@ const Card = ({ post, user }: CardProps) => {
           <UpDownVoteComponent key={_id} post={post} />
 
           <button
-            className="flex items-center text-blue-900 hover:text-gray-700 transition-all duration-200 mx-2"
+            className="flex items-center text-[#0d1011] hover:text-[#ef8212] transition-all duration-200 mx-2"
             aria-label="Comments"
           >
             <FaComment className="text-lg" />
@@ -145,13 +145,13 @@ const Card = ({ post, user }: CardProps) => {
           {isPremium && !hasAccess ? (
             <button
               onClick={handleCheckout}
-              className="w-full bg-green-600 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
+              className="w-full bg-[#ef8212] text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-[#4ff38b] transition duration-300"
             >
               Checkout
             </button>
           ) : (
             <Link href={`/post/${_id}`} passHref>
-              <button className="w-full bg-blue-800 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+              <button className="w-full bg-blue-900 text-white font-semibold text-sm py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
                 See More
               </button>
             </Link>
