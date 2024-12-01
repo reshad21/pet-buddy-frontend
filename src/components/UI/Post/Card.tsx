@@ -122,10 +122,10 @@ const Card = ({ post, user }: CardProps) => {
 
         {/* Post Title and Content */}
         <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2 hover:text-blue-600 transition duration-300">
+          <h2 className="text-md font-semibold text-gray-800 mb-2 hover:text-blue-600 transition duration-300">
             {title}
           </h2>
-          <p>{truncateContent(content, 50)}</p>
+          <p>{truncateContent(content, 15)}</p>
         </div>
 
         <div className="flex items-center">
