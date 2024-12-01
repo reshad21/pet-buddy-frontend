@@ -24,7 +24,12 @@ interface UserData {
   role: string;
 }
 
-const Card = ({ post, user }: { post: IPost; user: IUser | null }) => {
+interface CardProps {
+  post: IPost;
+  user?: IUser | null; // Make user optional
+}
+
+const Card = ({ post, user }: CardProps) => {
   const { _id, author, title, postImage, content, category, isPremium } = post;
   // const { user } = useUser();
 

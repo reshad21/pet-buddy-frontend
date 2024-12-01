@@ -1,5 +1,5 @@
 "use client";
-import { useGetAllPost } from "@/hooks/getAllPost.hook";
+import { useGetAllPost } from "@/hooks/post.hook";
 import { IPost } from "@/types";
 import Link from "next/link";
 

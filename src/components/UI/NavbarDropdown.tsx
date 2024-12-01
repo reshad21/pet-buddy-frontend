@@ -1,7 +1,7 @@
 "use client";
 
-import { useUser } from "@/context/user.provider";
-import { logout } from "@/services/AuthService";
+import { useUser } from "@/context/user.provider"; // Adjust to your actual context path
+import { logout } from "@/services/AuthService"; // Keep your `logout` function intact
 import { Avatar } from "@nextui-org/avatar";
 import {
   Dropdown,
@@ -9,16 +9,26 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
-
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function NavbarDropdown() {
   const router = useRouter();
-  const { user, setIsLoading: userLoading } = useUser();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+
+  const { user, setUser, setIsLoading: userLoading } = useUser();
 
   const handleLogout = () => {
-    logout();
     userLoading(true);
+    try {
+      logout(); // Your logout function as is
+      setUser(null); // Clear user context
+      router.replace(redirect || "/"); // Redirect to home or specified page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      userLoading(false);
+    }
   };
 
   const handleNavigation = (pathname: string) => {
@@ -30,7 +40,7 @@ export default function NavbarDropdown() {
       <DropdownTrigger>
         <Avatar className="cursor-pointer" src={user?.profilePhoto} />
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
+      <DropdownMenu aria-label="User Actions">
         <DropdownItem onClick={() => handleNavigation("/profile")}>
           Profile
         </DropdownItem>
@@ -44,8 +54,8 @@ export default function NavbarDropdown() {
           Change Password
         </DropdownItem>
         <DropdownItem
-          onClick={() => handleLogout()}
-          key="delete"
+          onClick={handleLogout}
+          key="logout"
           className="text-danger"
           color="danger"
         >

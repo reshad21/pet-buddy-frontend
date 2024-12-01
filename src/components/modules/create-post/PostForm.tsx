@@ -1,7 +1,7 @@
 "use client"; // Ensure this component is treated as a client component
 
 import { useUser } from "@/context/user.provider";
-import { useGetCreatePost } from "@/hooks/createPost.hook";
+import { useGetCreatePost } from "@/hooks/post.hook";
 import { TCreatePostData } from "@/types";
 import dynamic from "next/dynamic";
 import React, { useEffect } from "react";

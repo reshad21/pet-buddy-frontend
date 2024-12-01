@@ -58,24 +58,18 @@ export const createPost = async (formData: TCreatePostData): Promise<any> => {
 
 export const getMyPosts = async () => {
     const user = await getCurrentUser();
-
     const res = await axiosInstance.get(`/items?user=${user?._id}`);
-
     return res.data;
 };
 
 export const getAllPost = async (page: number) => {
     const fetchOptions = {
         cache: "no-store" as RequestCache,
-        // next: { tags: ["POST_TAG"], revalidate: 60 } dont need to use becuse use no-store
     };
-
     const res = await fetch(`${envConfig.baseApi}/post?page=${page}`, fetchOptions);
-
     if (!res.ok) {
         throw new Error("Failed to fetch data");
     }
-
     return res.json();
 };
 
@@ -134,27 +128,12 @@ export const updatePost = async (modalData: TCreatePostData, postId: string): Pr
 };
 
 
-// Define a more specific error type for better type safety
-interface ApiError {
-    message: string;
-    status?: number;
-}
-
 export const deletePost = async (postId: string) => {
     try {
-        // Directly await the delete call
         await axiosInstance.delete(`/post/${postId}`);
-
-        // Revalidate cache tag after successful deletion
         revalidateTag("POST_TAG");
     } catch (error) {
-        // Handle error and show error toast if needed
-        const apiError = error as ApiError; // Type assertion
-        console.error("Error deleting post:", apiError.message);
-
-        // Optional: You can use a toast notification library to show error messages
-        // toast.error(`Failed to delete post: ${apiError.message}`);
-
-        throw apiError; // Rethrow the error to handle it later
+        console.error("Error deleting post:", error);
+        throw error;
     }
 };

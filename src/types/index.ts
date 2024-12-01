@@ -35,6 +35,7 @@ export type IPost = {
 };
 
 
+
 export interface ICategory {
     _id: string;
     name: string;

@@ -12,23 +12,19 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, post }) => {
   const { register, handleSubmit, reset } = useForm<TCreatePostData>({
-    defaultValues: post || {}, // Set default values to the post data
+    defaultValues: post || {},
   });
 
   const onSubmit = (modalData: TCreatePostData) => {
-    // Handle the form submission for updating the post
-    console.log("Updated Post Data:", modalData);
     if (modalData?._id) {
       updatePost(modalData, modalData?._id);
     }
-
-    // Here you would typically call your update API
-    onClose(); // Close the modal after submission
+    onClose();
   };
 
   React.useEffect(() => {
     if (post) {
-      reset(post); // Reset form with new post data when post changes
+      reset(post);
     }
   }, [post, reset]);
 

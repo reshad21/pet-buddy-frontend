@@ -1,77 +1,47 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import Pagination from "@/components/UI/Pagination";
 import Card from "@/components/UI/Post/Card";
 import { useUser } from "@/context/user.provider";
-import { getAllPost } from "@/services/Post";
+import { useGetAllPost } from "@/hooks/post.hook";
 import { IPost } from "@/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const AllPosts = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-
   const { user } = useUser();
+  const { data, isError } = useGetAllPost();
 
-  // Fetch posts function
-  const fetchPosts = async (pageNum: number) => {
-    setLoading(true);
-    try {
-      const { data } = await getAllPost(pageNum);
-      if (data.length > 0) {
-        setPosts((prevPosts) => [...prevPosts, ...data]);
-      } else {
-        setHasMore(false);
-      }
-    } catch (err) {
-      setError("Failed to fetch posts. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //Pagination work step-1
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postsPerPage] = useState<number>(3); // Adjust the number of posts per page
+  const totalPages = data ? Math.ceil(data.data.length / postsPerPage) : 0;
+  // Pagination logic step-2
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentArticls = data?.data.slice(indexOfFirstPost, indexOfLastPost);
 
-  // Initial fetch and load more on scroll
-  useEffect(() => {
-    fetchPosts(page);
-  }, [page]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 200
-      ) {
-        if (hasMore && !loading) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, loading]);
-
-  if (error) {
-    return <p className="text-red-500">{error}</p>;
+  if (isError) {
+    return (
+      <p className="text-red-500">
+        Failed to load posts. Please try again later.
+      </p>
+    );
   }
 
   return (
     <div className="flex flex-col gap-5 bg-gray-100 p-5 rounded-md">
-      {posts.map((post: IPost) => (
-        <Card key={post._id} post={post} user={user} />
-      ))}
-      {loading && (
-        <li className="flex items-center">
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
-          Loading posts...
-        </li>
+      {currentArticls && currentArticls.length > 0 ? (
+        currentArticls?.map((post: IPost) => (
+          <Card key={post._id} post={post} user={user} />
+        ))
+      ) : (
+        <p className="text-center text-gray-500">No posts available.</p>
       )}
-      {!hasMore && (
-        <p className="text-center text-gray-500">No more posts to load.</p>
-      )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page: number) => setCurrentPage(page)}
+      />
     </div>
   );
 };

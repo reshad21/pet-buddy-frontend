@@ -16,7 +16,7 @@ export const getCurrentUserDetailsInfo = async (userId: string) => {
 };
 
 
-export const getSingleUserAllPosts = async (userId: string) => {
+export const loginUserAllPosts = async (userId: string) => {
     const fetchOption = {
         next: {
             tags: ["userposts"],
@@ -33,7 +33,6 @@ export const getSingleUserAllPosts = async (userId: string) => {
 
 
 // get user form axios 
-
 export const getUserFormAxiois = async (id: string) => {
     try {
         const { data } = await axiosInstance.get(`/users/${id}`);

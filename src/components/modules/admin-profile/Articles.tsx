@@ -1,18 +1,14 @@
 "use client";
 
-import PostTable from "@/components/modules/dashboard/PostTable";
 import Modal from "@/components/UI/Modal";
-import { useUser } from "@/context/user.provider";
-import { useDeletePost, useGetLoginUserAllPost } from "@/hooks/post.hook";
+import { useDeletePost, useGetAllPost } from "@/hooks/post.hook";
 import { TCreatePostData } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import PostTable from "../dashboard/PostTable";
 
-const PostPage = () => {
-  const { user } = useUser();
-  const { data: userAllPosts, isLoading } = useGetLoginUserAllPost(
-    user?._id as string
-  );
+const Articles = () => {
+  const { data: userAllPosts, isLoading } = useGetAllPost();
   const { mutate: deletePost, error, isSuccess } = useDeletePost();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,4 +66,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default Articles;
