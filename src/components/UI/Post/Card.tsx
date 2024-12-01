@@ -125,7 +125,7 @@ const Card = ({ post, user }: CardProps) => {
           <h2 className="text-md font-semibold text-[#0d1011] mb-2 hover:text-[#ef8212] transition duration-300">
             {title}
           </h2>
-          <p>{truncateContent(content, 15)}</p>
+          <p>{truncateContent(content, 20)}</p>
         </div>
 
         <div className="flex items-center">
