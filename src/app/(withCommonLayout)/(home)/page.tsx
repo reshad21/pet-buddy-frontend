@@ -1,5 +1,6 @@
 import AllPosts from "@/components/modules/home/AllPosts";
 import Categories from "@/components/modules/home/Categories ";
+import GetPremiumMember from "@/components/modules/home/GetPremiumMember";
 import PopularPosts from "@/components/modules/home/PopularPosts";
 import Search from "@/components/modules/home/Search";
 
@@ -14,6 +15,7 @@ export default function Home() {
           <Search />
           <PopularPosts />
           <Categories />
+          <GetPremiumMember />
         </div>
       </div>
     </div>
