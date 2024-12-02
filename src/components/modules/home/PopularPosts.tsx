@@ -3,6 +3,7 @@ import { useGetAllPost } from "@/hooks/post.hook";
 import { IPost } from "@/types";
 import Image from "next/image"; // Import Image component from Next.js
 import Link from "next/link";
+import PopularPostsSkeleton from "./PopularPostsSkeleton";
 
 const PopularPosts = () => {
   const { isSuccess, error, data } = useGetAllPost();
@@ -43,9 +44,8 @@ const PopularPosts = () => {
                 </li>
               ))
           ) : (
-            <li className="flex items-center">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
-              Loading posts...
+            <li className="">
+              <PopularPostsSkeleton />
             </li>
           )}
         </ul>

@@ -2,6 +2,7 @@
 
 import Pagination from "@/components/UI/Pagination";
 import Card from "@/components/UI/Post/Card";
+import CardSkeleton from "@/components/UI/Post/CardSkeleton";
 import { useUser } from "@/context/user.provider";
 import { useGetAllPost } from "@/hooks/post.hook";
 import { IPost } from "@/types";
@@ -35,7 +36,11 @@ const AllPosts = () => {
           <Card key={post._id} post={post} user={user} />
         ))
       ) : (
-        <p className="text-center text-gray-500">No posts available.</p>
+        // <p className="text-center text-gray-500">No posts available.</p>
+        <div className="flex flex-col gap-5">
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
       )}
       <Pagination
         currentPage={currentPage}
