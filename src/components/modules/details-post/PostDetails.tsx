@@ -13,6 +13,7 @@ import jsPDF from "jspdf";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaComment } from "react-icons/fa";
+import PostDetailsSkeleton from "./PostDetailsSkeleton";
 
 const PostDetails = ({ postId }: { postId: string }) => {
   const { user } = useUser();
@@ -222,7 +223,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
           </div>
         </>
       ) : (
-        <p className="text-center text-gray-500">No post details available.</p>
+        <PostDetailsSkeleton />
       )}
     </div>
   );
