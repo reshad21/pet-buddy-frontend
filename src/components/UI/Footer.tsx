@@ -1,4 +1,3 @@
-// components/Footer.js
 "use client";
 import Link from "next/link";
 import {
@@ -7,14 +6,15 @@ import {
   FaLinkedinIn,
   FaTwitter,
 } from "react-icons/fa";
+import Search from "../modules/home/Search";
 
 const Footer = () => {
   return (
-    <footer className="p-5 mt-10">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="p-5 mt-10 bg-gray-100">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Column 1: Navigation Links */}
-        <div>
-          <h4 className="text-lg font-semibold mb-4">Navigation</h4>
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold">Navigation</h4>
           <ul className="space-y-2">
             <li>
               <Link href="/" className="hover:underline">
@@ -32,7 +32,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link href="/privacy" className="hover:underline">
+              <Link href="/privacy-policy" className="hover:underline">
                 Privacy Policy
               </Link>
             </li>
@@ -40,68 +40,47 @@ const Footer = () => {
         </div>
 
         {/* Column 2: Services */}
-        <div>
-          <h4 className="text-lg font-semibold mb-4">Services</h4>
-          <ul className="space-y-2">
-            <li>
-              <Link href="/services/design" className="hover:underline">
-                Design
-              </Link>
-            </li>
-            <li>
-              <Link href="/services/development" className="hover:underline">
-                Development
-              </Link>
-            </li>
-            <li>
-              <Link href="/services/marketing" className="hover:underline">
-                Marketing
-              </Link>
-            </li>
-            <li>
-              <Link href="/services/support" className="hover:underline">
-                Support
-              </Link>
-            </li>
-          </ul>
-        </div>
 
-        {/* Column 3: Resources */}
-        <div>
-          <h4 className="text-lg font-semibold mb-4">Resources</h4>
+        {/* Column 3: Contact Us */}
+        <div className="space-y-4 md:col-span-2">
+          <h4 className="text-lg font-semibold">Contact Us</h4>
           <ul className="space-y-2">
             <li>
-              <Link href="/blog" className="hover:underline">
-                Blog
-              </Link>
+              <p>
+                <strong>Address:</strong> C.N.B Road, Barishal, Bangladesh, 8200
+              </p>
             </li>
             <li>
-              <Link href="/faq" className="hover:underline">
-                FAQ
-              </Link>
+              <p>
+                <strong>Email:</strong>{" "}
+                <a
+                  href="mailto:rasheduzzamanreshad@gmail.com"
+                  className="hover:text-blue-500"
+                >
+                  rasheduzzamanreshad@gmail.com
+                </a>
+              </p>
             </li>
             <li>
-              <Link href="/guides" className="hover:underline">
-                Guides
-              </Link>
-            </li>
-            <li>
-              <Link href="/terms" className="hover:underline">
-                Terms of Service
-              </Link>
+              <p>
+                <strong>Phone:</strong>{" "}
+                <a href="tel:+880 1787170612" className="hover:text-blue-500">
+                  +880 1787170612
+                </a>
+              </p>
             </li>
           </ul>
         </div>
 
         {/* Column 4: Social Media */}
-        <div>
-          <h4 className="text-lg font-semibold mb-4">Connect with Us</h4>
-          <div className="flex space-x-4 mb-4">
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold">Connect with Us</h4>
+          <div className="flex space-x-4">
             <Link
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-500"
+              className="text-blue-500"
             >
               <FaFacebookF />
             </Link>
@@ -109,7 +88,7 @@ const Footer = () => {
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-400"
+              className="text-blue-400"
             >
               <FaTwitter />
             </Link>
@@ -117,7 +96,7 @@ const Footer = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-pink-500"
+              className="text-pink-500"
             >
               <FaInstagram />
             </Link>
@@ -125,15 +104,15 @@ const Footer = () => {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-600"
+              className="text-blue-600"
             >
               <FaLinkedinIn />
             </Link>
           </div>
           <p className="text-sm">
-            &copy; {new Date().getFullYear()} Your Company Name. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} PETBUDDY. All rights reserved.
           </p>
+          <Search />
         </div>
       </div>
     </footer>

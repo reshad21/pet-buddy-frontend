@@ -42,7 +42,7 @@ export default function NavbarDropdown() {
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions">
         <DropdownItem onClick={() => handleNavigation("/profile")}>
-          Profile
+          Dashboard
         </DropdownItem>
         <DropdownItem onClick={() => handleNavigation("/profile/settings")}>
           Settings

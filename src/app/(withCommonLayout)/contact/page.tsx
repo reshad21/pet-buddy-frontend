@@ -30,7 +30,7 @@ export default function ContactUs() {
   };
 
   return (
-    <section className="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-800 py-16">
+    <section className="text-gray-800 py-16">
       <div className="max-w-3xl mx-auto px-8 md:px-6 lg:px-0">
         <h2 className="text-4xl font-extrabold text-center text-green-800 mb-10">
           Contact Us
@@ -90,7 +90,7 @@ export default function ContactUs() {
 
           <button
             type="submit"
-            className="bg-blue-600 text-white py-3 px-6 rounded-md shadow-md hover:bg-blue-700 transition duration-300 w-full font-medium"
+            className="bg-purple-600 text-white py-3 px-6 rounded-md shadow-md hover:bg-blue-700 transition duration-300 w-full font-medium"
           >
             Send Message
           </button>

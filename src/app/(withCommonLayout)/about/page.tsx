@@ -66,8 +66,8 @@ const AboutPage = () => {
 
       <div className="mt-10 text-center">
         <h3 className="text-xl font-semibold text-green-700">Get in Touch:</h3>
-        <p className="text-gray-600">Email: support@petbuddy.com</p>
-        <p className="text-gray-600">Phone: (123) 456-7890</p>
+        <p className="text-gray-600">Email: rasheduzzamanreshad@gmail.com</p>
+        <p className="text-gray-600">Phone: +880 1787170612</p>
       </div>
     </div>
   );
