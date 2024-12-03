@@ -60,6 +60,7 @@ export interface IUser {
     status: string;
     mobileNumber?: string;
     profilePhoto: string;
+    img?: string;
 }
 
 
