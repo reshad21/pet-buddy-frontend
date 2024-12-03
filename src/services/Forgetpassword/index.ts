@@ -2,22 +2,13 @@
 "use server"
 
 import axiosInstance from "@/lib/AxiosInstance";
+import { FieldValues } from "react-hook-form";
 
-export type TFormdata = {
-    newPassword: string;
-    oldPassword: string;
-    confirmPassword: string; // Added confirmPassword
-    email: string; // Added email
-}
 
-type TResponse = {
-    success: boolean;
-    message: string;
-};
 
-export const forgetPassword = async (formdata: TFormdata): Promise<TResponse> => {
+export const forgetPassword = async (forgetdata: FieldValues) => {
     try {
-        const { data } = await axiosInstance.post("/auth/forget-password", { ...formdata });
+        const { data } = await axiosInstance.post("/auth/forget-password", { ...forgetdata });
         return data;
     } catch (error) {
         console.error("Error forget password:", error);

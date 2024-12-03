@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { changePassword, forgetPassword, loginUser, registerUser, resetPassword } from "@/services/AuthService";
-import { getAllUsers, getUserFormAxiois } from "@/services/user";
-import { useMutation } from "@tanstack/react-query";
+import { getAllUsers, getCurrentUserDetailsInfo, getUserFormAxiois } from "@/services/user";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -103,5 +103,14 @@ export const useGetAllUser = (page: number = 1) => {
         onError: (error: Error) => {
             toast.error(error.message);
         },
+    });
+};
+
+
+//get single user all details informaiton
+export const useGetSingleUserDetails = (postId: string) => {
+    return useQuery<any, Error>({
+        queryKey: ["upvote", postId],
+        queryFn: () => getCurrentUserDetailsInfo(postId),
     });
 };

@@ -38,13 +38,13 @@ const SubscriptionPage = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white p-6 rounded-lg shadow-md">
+    <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white my-8 p-6 rounded-lg shadow-md">
       <div className="flex items-center justify-center mb-8">
         <FaGem className="text-4xl mr-3 text-yellow-400" />
         <h2 className="text-2xl font-extrabold">Choose Your Premium Plan</h2>
         <FaGem className="text-4xl ml-3 text-yellow-400" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-5">
         {plans.map((plan) => (
           <div
             key={plan.id}

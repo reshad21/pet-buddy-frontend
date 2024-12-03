@@ -57,10 +57,6 @@ export const getCurrentUser = async () => {
             role: decodedToken.role,
             status: decodedToken.status,
             profilePhoto: decodedToken.img,
-            followers: decodedToken.followers,
-            following: decodedToken.following,
-            posts: decodedToken.posts,
-            __v: decodedToken.__v,
         };
     }
 
