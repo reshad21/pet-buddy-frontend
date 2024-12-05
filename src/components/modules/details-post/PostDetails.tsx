@@ -24,8 +24,6 @@ const PostDetails = ({ postId }: { postId: string }) => {
   } = useGetSinglePostDetails();
 
   const { mutate: createComment } = useCreateComment();
-
-  // Get the current user's comment (if any) for the post
   const { data: currentUserCommentData } = useGetCurrentUserComment(post?._id);
 
   const [comment, setComment] = useState("");
@@ -43,7 +41,6 @@ const PostDetails = ({ postId }: { postId: string }) => {
     }
   }, [isSuccess, post]);
 
-  // Handle comment submission
   const handleCommentSubmit = () => {
     if (comment.trim()) {
       setIsSubmitting(true);
@@ -68,7 +65,6 @@ const PostDetails = ({ postId }: { postId: string }) => {
     }
   };
 
-  // Generate PDF for post
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text("Post Title: " + post?.data.title, 10, 10);
@@ -94,75 +90,72 @@ const PostDetails = ({ postId }: { postId: string }) => {
   };
 
   return (
-    <div className="flex flex-col w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="max-w-4xl mx-auto bg-gray-50 shadow-lg rounded-lg overflow-hidden my-11">
       {post ? (
         <>
-          <div className="relative h-48 md:h-96">
+          {/* Post Header */}
+          <div className="relative h-60 md:h-96">
             {post?.data?.postImage && (
               <Image
                 src={post?.data?.postImage || "/placeholder.jpg"}
-                alt="Card Image"
+                alt="Post Image"
                 layout="fill"
-                className="rounded-t-lg object-cover"
+                className="object-cover"
               />
             )}
           </div>
 
-          <div className="p-4 flex flex-col">
+          {/* Post Body */}
+          <div className="p-6">
             {/* Author Info */}
-            <div className="flex items-center justify-between mb-4 rounded-lg">
-              <div className="flex items-center">
-                <div className="w-12 h-12 relative">
-                  {post?.data?.author?.img && (
-                    <Image
-                      src={post?.data?.author?.img}
-                      alt="Author Image"
-                      layout="fill"
-                      className="rounded-full border border-gray-300"
-                    />
-                  )}
-                </div>
-                <div className="ml-4">
-                  <h4 className="text-base font-medium text-gray-800">
-                    {post.data.author.name}
-                  </h4>
-                  <p className="text-xs text-gray-500">
-                    {post.data.author.email}
-                  </p>
-                </div>
+            <div className="flex items-center mb-6">
+              <div className="w-14 h-14 relative">
+                {post?.data?.author?.img && (
+                  <Image
+                    src={post?.data?.author?.img}
+                    alt="Author"
+                    layout="fill"
+                    className="rounded-full border border-gray-300"
+                  />
+                )}
               </div>
-              <button className="bg-blue-500 text-white text-sm py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300 ml-4">
+              <div className="ml-4">
+                <h4 className="text-lg font-semibold text-gray-800">
+                  {post.data.author.name}
+                </h4>
+                <p className="text-sm text-gray-500">
+                  {post.data.author.email}
+                </p>
+              </div>
+              <button className="ml-auto px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
                 Follow
               </button>
             </div>
 
             {/* Post Content */}
-            <div>
-              <h2 className="text-xl font-semibold mb-2">{post.data.title}</h2>
-              <PostContent content={post.data.content} />
-            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              {post.data.title}
+            </h2>
+            <PostContent content={post.data.content} />
 
             {/* Actions */}
-            <div className="flex items-center justify-between mt-2">
-              <div className="flex items-center space-x-3">
-                <UpDownVoteComponent key={post.data._id} post={post.data} />
-                <button
-                  className="ml-4 text-gray-600 hover:text-gray-800 flex items-center"
-                  onClick={() => setShowComments(!showComments)}
-                >
-                  <FaComment className="mr-1" />
-                  <span>{comments.length}</span>
-                </button>
-              </div>
+            <div className="flex items-center mt-4 space-x-4">
+              <UpDownVoteComponent key={post.data._id} post={post.data} />
+              <button
+                onClick={() => setShowComments(!showComments)}
+                className="flex items-center text-gray-600 hover:text-gray-800"
+              >
+                <FaComment className="mr-2" />
+                {comments.length}
+              </button>
             </div>
 
             {/* Comments Section */}
             {showComments && (
-              <div className="mt-6">
-                {/* Display Current User's Comment */}
+              <div className="mt-6 space-y-4">
                 {currentUserCommentData && (
-                  <div className="bg-gray-100 p-3 rounded-lg mb-4">
-                    <h4 className="text-sm font-semibold text-gray-700">
+                  <div className="p-4 bg-gray-100 rounded-lg">
+                    <h4 className="font-semibold text-gray-700">
                       Your Comment:
                     </h4>
                     <p className="text-gray-600">
@@ -170,53 +163,47 @@ const PostDetails = ({ postId }: { postId: string }) => {
                     </p>
                   </div>
                 )}
-
-                {/* Comment Input */}
                 <textarea
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows={3}
                   placeholder="Write a comment..."
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 />
                 <button
-                  className={`mt-2 bg-blue-500 text-white py-1 px-4 rounded-full hover:bg-blue-600 transition duration-300 ${
-                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
                   onClick={handleCommentSubmit}
                   disabled={isSubmitting}
+                  className={`w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition ${
+                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
                   {isSubmitting ? "Submitting..." : "Comment"}
                 </button>
+
+                <div className="space-y-4">
+                  {comments.map((comment) => (
+                    <div
+                      key={comment._id}
+                      className="flex items-start space-x-4"
+                    >
+                      <Image
+                        src={user?.img || "/default-avatar.jpg"}
+                        alt="User Avatar"
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                      />
+                      <p className="text-gray-600">{comment.content}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
-            {/* Existing Comments */}
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Comments</h3>
-              <div className="space-y-4 h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-lg scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500">
-                {comments.map((comment: ICommentData) => (
-                  <div key={comment._id} className="flex items-start space-x-3">
-                    <div className="w-10 h-10 relative">
-                      <Image
-                        src={user?.img || "/default-avatar.jpg"}
-                        alt="Author image"
-                        layout="fill"
-                        className="rounded-full border border-gray-300"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-gray-600">{comment.content}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Download PDF Button */}
+            {/* Download PDF */}
             <button
-              className="mt-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300"
               onClick={generatePDF}
+              className="mt-6 w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
             >
               Download PDF
             </button>
