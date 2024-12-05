@@ -30,7 +30,7 @@ const AllPosts = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 bg-gray-100 p-5 rounded-md">
+    <div className="flex flex-col gap-5 bg-gray-100 p-1 rounded-md">
       {currentArticls && currentArticls.length > 0 ? (
         currentArticls?.map((post: IPost) => (
           <Card key={post._id} post={post} user={user} />

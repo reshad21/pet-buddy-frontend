@@ -5,9 +5,9 @@ const GetPremiumMember = () => {
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white p-4 rounded-lg shadow-md mt-12">
       <div className="flex items-center mb-2 justify-center">
-        <FaGem className="text-2xl mr-1" />
-        <h3 className="text-lg font-semibold">Premium Membership</h3>
-        <FaGem className="text-2xl ml-1" />
+        <FaGem className="text-xl mr-1" />
+        <h3 className="text-md font-semibold">Membership</h3>
+        <FaGem className="text-xl ml-1" />
       </div>
       <p className="text-sm mb-4 text-center">
         Unlock exclusive benefits like personalized pet care advice, special

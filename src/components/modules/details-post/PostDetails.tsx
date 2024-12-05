@@ -1,5 +1,6 @@
 "use client";
 
+import FollowComponent from "@/components/UI/Post/FollowComponent";
 import UpDownVoteComponent from "@/components/UI/Post/UpDownVoteComponent";
 import PostContent from "@/components/UI/PostContent";
 import { useUser } from "@/context/user.provider";
@@ -17,6 +18,11 @@ import PostDetailsSkeleton from "./PostDetailsSkeleton";
 
 const PostDetails = ({ postId }: { postId: string }) => {
   const { user } = useUser();
+  const author = {
+    _id: user?._id || "defaultUserId", // fallback value if user._id is undefined
+    name: user?.name || "Guest User", // fallback value if user.name is undefined
+  };
+
   const {
     mutate: fetchPostDetails,
     isSuccess,
@@ -127,9 +133,7 @@ const PostDetails = ({ postId }: { postId: string }) => {
                   {post.data.author.email}
                 </p>
               </div>
-              <button className="ml-auto px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                Follow
-              </button>
+              <FollowComponent author={author} />
             </div>
 
             {/* Post Content */}
