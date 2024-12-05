@@ -1,3 +1,6 @@
+"use client";
+import { useUser } from "@/context/user.provider";
+import Link from "next/link";
 import { FaCheckCircle, FaGem } from "react-icons/fa";
 
 const SubscriptionPage = () => {
@@ -37,6 +40,8 @@ const SubscriptionPage = () => {
     },
   ];
 
+  const { user } = useUser();
+
   return (
     <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white my-8 p-6 rounded-lg shadow-md">
       <div className="flex items-center justify-center mb-8">
@@ -67,9 +72,12 @@ const SubscriptionPage = () => {
                 </li>
               ))}
             </ul>
-            <button className="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold text-lg py-3 rounded-lg hover:from-green-500 hover:to-blue-600 transition">
+            <Link
+              href={`/checkout/${user?._id}`}
+              className="w-full block text-center bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold text-lg py-3 rounded-lg hover:from-green-500 hover:to-blue-600 transition"
+            >
               Purchase Now
-            </button>
+            </Link>
           </div>
         ))}
       </div>

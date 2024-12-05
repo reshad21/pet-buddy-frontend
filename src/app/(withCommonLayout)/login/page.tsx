@@ -41,7 +41,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center bg-gray-50 px-4">
+    <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center my-20">
       <h3 className="my-2 text-3xl font-bold text-gray-800">
         Login to PetBuddy
       </h3>
@@ -80,7 +80,7 @@ const LoginPage = () => {
           </div>
 
           <Button
-            className="my-4 w-full rounded-md bg-blue-600 font-semibold text-white hover:bg-blue-700 transition-colors"
+            className="my-4 w-full rounded-md bg-default-900 text-default transition-colors"
             size="lg"
             type="submit"
             isLoading={isPending}
